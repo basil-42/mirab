@@ -135,25 +135,25 @@ body {
   }
 }
 
-.hamburger {
-  /* content-box is deliberate: the button also carries Tailwind's `p-2`
-     (8px) padding for a comfortable tap target. With the default
-     border-box sizing, that padding was eating into the 24px box itself,
-     leaving only 8px of content height for the flex column — less than
-     the two 5px gaps between the three bars alone, so the flex items
-     (which have no content of their own) were forced to shrink all the
-     way to 0 height to fit. content-box keeps the 24px icon area free of
-     the padding, so the bars have room to render at their set height,
-     and the button's actual footprint grows to a comfier ~40x40 tap
-     target. */
-  box-sizing: content-box;
-  display: inline-flex;
-  flex-direction: column;
-  justify-content: center;
-  gap: 5px;
-  width: 24px;
-  height: 24px;
-}
+/* .hamburger's own layout (inline-flex, flex-col, gap-[5px], w-6, h-6,
+   box-content) is expressed as Tailwind utility classes directly on the
+   button in Header.astro, not as custom CSS here. Reason: Tailwind v4
+   compiles `@import "tailwindcss"` into named cascade layers, and any
+   plain CSS written in this file outside an `@layer` block sits in an
+   implicit final layer that beats ALL layered styles unconditionally —
+   regardless of selector specificity or source order. A custom
+   `.hamburger { display: inline-flex; ... }` rule here previously
+   overrode Tailwind's `lg:hidden` utility (which sets `display: none`
+   at the lg breakpoint) on every viewport, including desktop, since
+   both rules target `display` and the unlayered one always wins.
+   Keeping these properties as Tailwind utilities avoids the conflict
+   entirely: Tailwind generates responsive variants specifically so
+   `lg:hidden` correctly overrides a base `inline-flex` on the same
+   element. box-content (box-sizing: content-box) keeps the button's
+   p-2 padding from eating into the 24px icon area itself — with the
+   default border-box sizing, that padding would leave only 8px of
+   content height for the flex column, less than the two 5px gaps
+   between the three bars alone, forcing them to shrink to 0 height. */
 .hamburger-bar {
   display: block;
   width: 100%;
