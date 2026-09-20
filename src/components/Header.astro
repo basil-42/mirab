@@ -21,7 +21,7 @@ const isFeaturePage = features.some((f) => f.slug === currentSlug);
 
 <header id="site-header" class="sticky top-0 z-50 bg-white border-b border-gray-300">
   <div class={`flex items-center justify-between h-[76px] px-6 md:px-20 ${fontClass}`}>
-    <Logo lang={lang} />
+    <Logo lang={lang} href={pathFor(lang, '')} wordmark size={34} animate />
 
     <nav class="hidden lg:flex items-center gap-9 text-[14.5px] font-medium text-ink">
       <a href={pathFor(lang, '')} class:list={["hover:text-navy-500", currentSlug === '' && 'text-navy-900 font-semibold']}>{t.home}</a>

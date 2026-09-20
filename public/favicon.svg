@@ -1,4 +1,15 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100">
-  <polyline points="6,84 28,18 50,84 72,18 94,84" fill="none" stroke="#0B1F3A" stroke-width="15" stroke-linecap="round" stroke-linejoin="round"/>
-  <circle cx="72" cy="18" r="10" fill="#E0932E"/>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="-0.67 0 100 100">
+  <!-- Mirab "motion lines" mark — compact 2-line geometry (brief v2.2). -->
+  <style>
+    .ink { stroke: #0B1F3A; }
+    .mark { stroke: #B5701A; }
+    @media (prefers-color-scheme: dark) {
+      .ink { stroke: #FFFFFF; }
+      .mark { stroke: #E0932E; }
+    }
+  </style>
+  <g fill="none" stroke-linecap="round">
+    <line class="ink" x1="19.97" y1="66.22" x2="40.99" y2="24.18" stroke-width="11"/>
+    <line class="mark" x1="47.02" y1="79.75" x2="76.77" y2="20.25" stroke-width="15.5"/>
+  </g>
 </svg>

@@ -20,7 +20,7 @@ const year = new Date().getFullYear();
 <footer class={`bg-navy-900 text-white ${fontClass}`}>
   <div class="max-w-[1280px] mx-auto px-6 md:px-20 py-16 grid grid-cols-1 md:grid-cols-4 gap-12">
     <div class="md:col-span-2 flex flex-col gap-4">
-      <Logo lang={lang} reversed />
+      <Logo lang={lang} href={pathFor(lang, '')} wordmark variant="inverse" size={34} />
       <p class="text-[14px] leading-relaxed text-white/60 max-w-sm">{ft.company}</p>
     </div>
 
@@ -46,7 +46,7 @@ const year = new Date().getFullYear();
 
   <div class="border-t border-white/10">
     <div class="max-w-[1280px] mx-auto px-6 md:px-20 py-6 flex flex-col sm:flex-row items-center justify-between gap-3 text-[13px] text-white/50">
-      <span>&copy; {year} {lang === 'ar' ? 'مِرآب' : 'Mirab'} — {ft.rights}</span>
+      <span>&copy; {year} {lang === 'ar' ? 'مرآب' : 'Mirab'} — {ft.rights}</span>
       <div class="flex items-center gap-5">
         <a href={pathFor(lang, 'privacy')} class="hover:text-amber-300">{legal.privacy}</a>
         <a href={pathFor(lang, 'terms')} class="hover:text-amber-300">{legal.terms}</a>

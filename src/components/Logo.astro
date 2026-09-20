@@ -1,23 +1,192 @@
 ---
+// Mirab logo — "motion lines" mark, design brief v2.2 (approved).
+//
+// Three parallel strokes on an exact -2.0 slope, √2 thickness/length scale,
+// a constant 13.00 edge-to-edge gap, inside a -0.67-shifted viewBox so the
+// mark sits dead-centre in its frame. Below 32px the simplified two-line
+// version is used instead — the three-line version's thinnest stroke drops
+// under the 1.4px legibility floor at smaller sizes.
+//
+// No `prefers-color-scheme` here, by design: the site itself never switches
+// to a dark background based on OS preference — only the footer is dark,
+// via the explicit `inverse` variant below. Tying the mark's colour to the
+// visitor's OS setting would turn it white on a page that's still light,
+// making it disappear. That media query belongs only in the standalone
+// favicon.svg, where it's legitimate: it controls the browser's own dark
+// tab bar, a context this component has no say over.
+//
+// Line lengths for the draw-in animation are read straight from GEOMETRY
+// below and set per-<line> — not through one shared CSS custom property.
+// A single shared variable was the original bug: every line's dash length
+// would resolve to whichever line's value was set last.
+
 import { siteName } from '../i18n/nav';
 import type { Lang } from '../i18n/nav';
 
-interface Props {
-  lang: Lang;
-  reversed?: boolean;
+type Variant = 'default' | 'inverse' | 'mono' | 'mono-light' | 'current';
+type LineRole = 'ink' | 'mark';
+
+interface GeoLine {
+  x1: number; y1: number; x2: number; y2: number;
+  width: number;
+  length: number; // geometric length, used as the dash length when animated
+  role: LineRole;
 }
 
-const { lang, reversed = false } = Astro.props;
-const mark = reversed ? '#FFFFFF' : '#0B1F3A';
-const wordColor = reversed ? '#FFFFFF' : '#0B1F3A';
+interface Props {
+  lang: Lang;
+  /** Icon height in px. Also decides full vs. compact geometry (< 32 → compact) unless `compact` is set explicitly. */
+  size?: number;
+  variant?: Variant;
+  /** Show the wordmark next to the icon. `'ar' | 'en'` overrides the language it's rendered in. */
+  wordmark?: boolean | 'ar' | 'en';
+  orientation?: 'horizontal' | 'vertical';
+  /** Plays the sequential draw-in once per tab session, then freezes at the finished state on every later navigation (see the sessionStorage guard script below — needed because the header's node isn't reliably the same DOM node across a ClientRouter navigation). */
+  animate?: boolean;
+  /** Force full (false) or compact (true) geometry. Defaults to `size < 32`. */
+  compact?: boolean;
+  /** Reserve the mark's own 0.25×size clear-space as padding on every side. */
+  clearSpace?: boolean;
+  href?: string;
+  label?: string;
+  class?: string;
+}
+
+const {
+  lang,
+  size = 32,
+  variant = 'default',
+  wordmark = false,
+  orientation = 'horizontal',
+  animate = false,
+  compact,
+  clearSpace = false,
+  href,
+  label,
+  class: className,
+} = Astro.props;
+
+const VIEWBOX = '-0.67 0 100 100';
+
+const FULL: GeoLine[] = [
+  { x1: 10.38, y1: 66.55, x2: 28.38, y2: 30.55, width: 6,   length: 40.25, role: 'ink' },
+  { x1: 28.49, y1: 75.60, x2: 53.94, y2: 24.70, width: 8.5, length: 56.91, role: 'ink' },
+  { x1: 49.28, y1: 86.00, x2: 85.28, y2: 14.00, width: 12,  length: 80.50, role: 'mark' },
+];
+
+const COMPACT: GeoLine[] = [
+  { x1: 19.97, y1: 66.22, x2: 40.99, y2: 24.18, width: 11,   length: 47.00, role: 'ink' },
+  { x1: 47.02, y1: 79.75, x2: 76.77, y2: 20.25, width: 15.5, length: 66.52, role: 'mark' },
+];
+
+const useCompact = compact ?? size < 32;
+const lines = useCompact ? COMPACT : FULL;
+
+const COLORS: Record<Variant, { ink: string; mark: string }> = {
+  default: { ink: '#0B1F3A', mark: '#B5701A' },        // light backgrounds (3.64:1)
+  inverse: { ink: '#FFFFFF', mark: '#E0932E' },        // dark backgrounds only (the footer)
+  mono: { ink: '#0B1F3A', mark: '#0B1F3A' },            // single-colour print / stamp / engrave
+  'mono-light': { ink: '#FFFFFF', mark: '#FFFFFF' },    // single-colour on dark or transparent
+  current: { ink: 'currentColor', mark: 'currentColor' }, // inherits, e.g. inside a button
+};
+const colors = COLORS[variant];
+
+const showWord = wordmark !== false;
+const wordLang: Lang = wordmark === 'ar' ? 'ar' : wordmark === 'en' ? 'en' : lang;
+const wordText = siteName[wordLang].full;
+const wordFontClass = wordLang === 'ar' ? 'font-ar' : 'font-en';
+const ariaLabel = label ?? siteName[lang].full;
+
+const gap = +(size * 0.25).toFixed(2);
+const fontSize = +(size * 0.62).toFixed(2);
+
+const Tag = href ? 'a' : 'span';
 ---
 
-<a href={lang === 'ar' ? '/' : '/en/'} class="flex items-center gap-[11px] shrink-0" aria-label={siteName[lang].full}>
-  <svg viewBox="0 0 100 100" width="32" height="32" fill="none" aria-hidden="true">
-    <polyline points="6,84 28,18 50,84 72,18 94,84" fill="none" stroke={mark} stroke-width="13" stroke-linecap="round" stroke-linejoin="round"></polyline>
-    <circle cx="72" cy="18" r="9" fill="#E0932E"></circle>
+<Tag
+  href={href}
+  class:list={[
+    'mirab-logo inline-flex items-center shrink-0',
+    orientation === 'vertical' && 'flex-col',
+    animate && 'mirab-logo--animated',
+    className,
+  ]}
+  style={{ gap: `${gap}px`, padding: clearSpace ? `${gap}px` : undefined }}
+  aria-label={!showWord ? ariaLabel : undefined}
+>
+  <svg viewBox={VIEWBOX} width={size} height={size} fill="none" aria-hidden="true">
+    <g stroke-linecap="round">
+      {lines.map((line) => (
+        <line
+          x1={line.x1} y1={line.y1} x2={line.x2} y2={line.y2}
+          stroke={line.role === 'mark' ? colors.mark : colors.ink}
+          stroke-width={line.width}
+          stroke-dasharray={animate ? line.length : undefined}
+          stroke-dashoffset={animate ? line.length : undefined}
+        />
+      ))}
+    </g>
   </svg>
-  <span class:list={["font-bold text-[20px] leading-none", lang === 'ar' ? 'font-ar' : 'font-en']} style={{ color: wordColor }}>
-    {siteName[lang].full}
-  </span>
-</a>
+  {showWord && (
+    <span
+      class:list={['mirab-logo__word font-bold leading-none', wordFontClass]}
+      style={{ color: colors.ink, fontSize: `${fontSize}px` }}
+    >
+      {wordText}
+    </span>
+  )}
+</Tag>
+
+<style>
+  .mirab-logo--animated svg line {
+    animation: mirab-draw 640ms cubic-bezier(0.22, 1, 0.36, 1) forwards;
+  }
+  .mirab-logo--animated svg line:nth-child(2) { animation-delay: 90ms; }
+  .mirab-logo--animated svg line:nth-child(3) { animation-delay: 180ms; }
+
+  @keyframes mirab-draw {
+    to { stroke-dashoffset: 0; }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .mirab-logo--animated svg line {
+      animation: none;
+      stroke-dashoffset: 0 !important;
+    }
+  }
+
+  .mirab-logo--static svg line {
+    animation: none;
+    stroke-dashoffset: 0 !important;
+  }
+</style>
+
+<script>
+  // `<Header transition:persist>` only keeps the actual DOM node across a
+  // navigation when the browser supports the native View Transitions API;
+  // this site's `<ClientRouter fallback="swap" />` means anything without
+  // that support (verified: the headless Chromium this was tested in is
+  // one of them) gets a full swap instead, and the "persisted" header is
+  // really a brand-new node each time — so a flag stored ON the node
+  // (a dataset attribute) never survives to the next navigation. Verified
+  // without this guard: the draw-in restarts on every navigation, not
+  // just the first. sessionStorage lives on the tab, not the node, so it
+  // survives either path and still resets on a fresh session/tab.
+  function freezeMirabLogoAnimation() {
+    let played = false;
+    try {
+      played = sessionStorage.getItem('mirab-logo-anim-played') === '1';
+      sessionStorage.setItem('mirab-logo-anim-played', '1');
+    } catch {
+      // Storage unavailable (private mode, disabled) — fail open and just
+      // let the draw-in play on every navigation rather than break the logo.
+    }
+    if (!played) return;
+    document.querySelectorAll('.mirab-logo--animated').forEach((el) => {
+      el.classList.add('mirab-logo--static');
+    });
+  }
+
+  freezeMirabLogoAnimation();
+  document.addEventListener('astro:page-load', freezeMirabLogoAnimation);
+</script>

@@ -10,7 +10,7 @@ export interface FeatureItem extends NavItem {
 }
 
 export const siteName: Record<Lang, { full: string; short: string }> = {
-  ar: { full: 'مِرآب', short: 'مِرآب' },
+  ar: { full: 'مرآب', short: 'مرآب' },
   en: { full: 'Mirab', short: 'Mirab' },
 };
 
@@ -31,7 +31,7 @@ export const nav: Record<Lang, { home: string; features: string; pricing: string
     login: 'تسجيل الدخول',
     migrationGuide: 'دليل الانتقال',
     comparison: 'المقارنة',
-    about: 'عن مِرآب',
+    about: 'عن مرآب',
   },
   en: {
     home: 'Home',
