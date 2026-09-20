@@ -1,0 +1,43 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import PageHero from '../components/PageHero.astro';
+import FeatureShowcase from '../components/FeatureShowcase.astro';
+import FeatureDetailGrid from '../components/FeatureDetailGrid.astro';
+import CTABanner from '../components/CTABanner.astro';
+
+const showcase = {
+  panelTitle: 'لوحة الأمان',
+  tiles: [
+    { label: 'المستخدمون النشطون', value: '6' },
+    { label: 'المصادقة الثنائية', value: 'مفعّلة' },
+    { label: 'آخر نسخة احتياطية', value: 'اليوم 3:00 ص' },
+  ],
+  rows: [
+    { label: 'فني — صلاحيات محدودة', badge: 'نشط', badgeVariant: 'sent' as const },
+    { label: 'نسخة احتياطية سحابية', badge: 'مكتملة', badgeVariant: 'sent' as const },
+  ],
+  chips: [
+    { icon: 'check' as const, title: 'تم تفعيل 2FA', subtitle: 'عبر Google Authenticator' },
+    { icon: 'alert' as const, title: 'محاولة دخول محظورة', subtitle: 'تجاوز الحد المسموح' },
+    { icon: 'mail' as const, title: 'دعوة مستخدم أُرسلت', subtitle: 'رابط تفعيل آمن' },
+  ],
+};
+
+const items = [
+  { icon: 'users' as const, title: 'نظام أدوار وصلاحيات دقيق', desc: 'تحكم كامل بما يستطيع كل مستخدم رؤيته أو تعديله، عبر أدوار مخصصة (وحدة × إجراء) بدل الاعتماد على صلاحيات عامة فقط.' },
+  { icon: 'audit' as const, title: 'مصادقة ثنائية العامل (2FA)', desc: 'حماية إضافية لتسجيل الدخول عبر تطبيقات المصادقة القياسية (Google Authenticator وما شابه) مع دعم مسح رمز QR مباشرة من الحساب.' },
+  { icon: 'lock' as const, title: 'حماية تسجيل الدخول', desc: 'حد أقصى لمحاولات الدخول الفاشلة، حماية CSRF على كل الطلبات، وجلسات آمنة (Secure Cookies) لمنع أي وصول غير مصرح به.' },
+  { icon: 'mail' as const, title: 'دعوات المستخدمين الآمنة', desc: 'إضافة مستخدم جديد لا تتطلب مشاركة كلمة مرور يدوياً — يستلم المستخدم رابط تفعيل آمن عبر بريده لإكمال إعداد حسابه بنفسه.' },
+  { icon: 'cloud' as const, title: 'نسخ احتياطي محلي وسحابي', desc: 'نسخ احتياطي تلقائي يومي بالإضافة لخيار الرفع السحابي المباشر (متوافق مع Cloudflare R2 / Amazon S3)، مع إمكانية الاسترداد الكامل من أي نسخة سابقة عند الحاجة، ومدة احتفاظ قابلة للتخصيص.' },
+];
+---
+
+<BaseLayout lang="ar" slug="security" title="الأمان وإدارة الصلاحيات — مِرآب" description="صلاحيات دقيقة لكل مستخدم، مصادقة ثنائية، ونسخ احتياطي محلي وسحابي.">
+  <PageHero eyebrow="الأمان وإدارة الصلاحيات" title="بنية أمان جاهزة لمؤسستك" description="من صلاحيات دقيقة إلى مصادقة ثنائية ونسخ احتياطي سحابي — بياناتك محمية بمعايير مؤسسية حقيقية." />
+
+  <FeatureShowcase panelTitle={showcase.panelTitle} tiles={showcase.tiles} rows={showcase.rows} chips={showcase.chips} />
+
+  <FeatureDetailGrid items={items} label="تفاصيل الميزة" />
+
+  <CTABanner lang="ar" title="احمِ بيانات ورشتك من اليوم الأول." ctaLabel="ابدأ الآن مجانًا" />
+</BaseLayout>

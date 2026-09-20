@@ -1,0 +1,87 @@
+---
+import { productPreview } from '../i18n/home';
+import type { Lang } from '../i18n/nav';
+
+interface Props {
+  lang: Lang;
+}
+const { lang } = Astro.props;
+const t = productPreview[lang];
+
+const statusColor: Record<'ok' | 'warn' | 'urgent', string> = {
+  ok: '#2E7D4F',
+  warn: '#8A4A0F',
+  urgent: '#B23B2E',
+};
+
+const statusLabel: Record<'ok' | 'warn' | 'urgent', string> = Object.fromEntries(
+  t.inspection.legend.map((l) => [l.color, l.label])
+) as Record<'ok' | 'warn' | 'urgent', string>;
+---
+
+<section class="px-6 md:px-20 py-14 md:py-16">
+  <div class="max-w-[720px] mx-auto text-center mb-12">
+    <h2 class="text-[24px] md:text-[28px] font-bold text-navy-900">{t.heading}</h2>
+    <p class="text-[15px] md:text-[16px] text-gray-600 mt-3 leading-[1.8]">{t.subheading}</p>
+  </div>
+
+  <div class="max-w-[1180px] mx-auto grid grid-cols-1 lg:grid-cols-2 gap-7">
+    <!-- Job card mockup -->
+    <div class="bg-bg border border-gray-300 rounded-2xl shadow-lg overflow-hidden">
+      <div class="bg-navy-900 px-5 py-4 flex items-center justify-between">
+        <span class="text-white font-semibold text-[14px]">{t.jobCard.badge}</span>
+        <div class="flex gap-1.5">
+          <div class="w-2 h-2 rounded-full bg-amber-500"></div>
+          <div class="w-2 h-2 rounded-full bg-white/30"></div>
+          <div class="w-2 h-2 rounded-full bg-white/30"></div>
+        </div>
+      </div>
+      <div class="p-5 flex flex-col gap-4">
+        <div class="flex flex-col gap-0.5">
+          <span class="text-[14.5px] font-bold text-navy-900">{t.jobCard.customer}</span>
+          <span class="text-[12.5px] text-gray-600">{t.jobCard.vehicle}</span>
+        </div>
+        <div class="flex flex-col gap-2">
+          {t.jobCard.items.map((item) => (
+            <div class="flex items-center justify-between px-3.5 py-3 bg-white border border-gray-300 rounded-lg">
+              <span class="text-[13px] text-ink font-medium">{item.label}</span>
+              <span class="text-[13px] font-semibold text-navy-900">{item.price}</span>
+            </div>
+          ))}
+        </div>
+        <div class="flex items-center justify-between px-3.5 py-3 bg-amber-500/10 rounded-lg">
+          <span class="text-[13.5px] font-semibold text-[#8A4A0F]">{t.jobCard.total}</span>
+          <span class="text-[16px] font-bold text-[#8A4A0F]">{t.jobCard.totalValue}</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- Inspection checklist mockup -->
+    <div class="bg-bg border border-gray-300 rounded-2xl shadow-lg overflow-hidden">
+      <div class="bg-navy-900 px-5 py-4 flex items-center justify-between">
+        <span class="text-white font-semibold text-[14px]">{t.inspection.badge}</span>
+        <div class="flex gap-1.5">
+          <div class="w-2 h-2 rounded-full bg-amber-500"></div>
+          <div class="w-2 h-2 rounded-full bg-white/30"></div>
+          <div class="w-2 h-2 rounded-full bg-white/30"></div>
+        </div>
+      </div>
+      <div class="p-5 flex flex-col gap-4">
+        <div class="flex flex-col gap-2">
+          {t.inspection.points.map((p) => (
+            <div class="flex items-center justify-between px-3.5 py-3 bg-white border border-gray-300 rounded-lg">
+              <span class="text-[13px] text-ink font-medium">{p.label}</span>
+              <span class="flex items-center gap-1.5 text-[12px] font-semibold" style={`color:${statusColor[p.status]}`}>
+                <span class="w-2 h-2 rounded-full shrink-0" style={`background:${statusColor[p.status]}`}></span>
+                {statusLabel[p.status]}
+              </span>
+            </div>
+          ))}
+        </div>
+        <div class="flex items-center justify-between px-3.5 py-3 bg-navy-900/5 rounded-lg">
+          <span class="text-[13px] leading-[1.7] text-navy-900">{t.inspection.summary}</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>

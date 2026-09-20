@@ -1,0 +1,54 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import PageHero from '../../components/PageHero.astro';
+import FeatureShowcase from '../../components/FeatureShowcase.astro';
+import FeatureDetailGrid from '../../components/FeatureDetailGrid.astro';
+import CTABanner from '../../components/CTABanner.astro';
+import { pathFor } from '../../i18n/paths';
+
+const showcase = {
+  panelTitle: 'Import Preview',
+  tiles: [
+    { label: 'Records ready to import', value: '342' },
+    { label: 'Duplicates detected', value: '12', accent: true },
+    { label: 'Data errors', value: '3' },
+  ],
+  rows: [
+    { label: 'Ahmed Al-Kuwari — 5551 2345', badge: 'Matched customer', badgeVariant: 'sent' as const },
+    { label: 'Row 87 — missing phone number', badge: 'Needs review', badgeVariant: 'amber' as const },
+  ],
+  chips: [
+    { icon: 'check' as const, title: 'Preview before committing', subtitle: 'Dry run — no changes made yet' },
+    { icon: 'alert' as const, title: 'Possible duplicate', subtitle: 'Matched automatically by phone' },
+    { icon: 'export' as const, title: 'Full export', subtitle: 'CSV / Excel' },
+  ],
+};
+
+const items = [
+  { icon: 'import' as const, title: 'Bulk CSV Import', desc: 'Bulk-import hundreds or thousands of records at once (customers, invoices, job cards, quotations) from an Excel/CSV file, with a full preview of the outcome before committing (dry run) to avoid any data mistakes.' },
+  { icon: 'link' as const, title: 'Smart Customer Matching', desc: 'Imported records are automatically matched to existing customers by phone number (regardless of formatting), preventing duplicate customers during import.' },
+  { icon: 'export' as const, title: 'Full Export', desc: 'Full export of any list or report — customers, invoices, audit log — to ready-to-use CSV or Excel files outside the system.' },
+];
+---
+
+<BaseLayout lang="en" slug="data" title="Data Import & Export — Mirab" description="Bulk CSV import with a dry-run preview, and smart customer matching to prevent duplicates.">
+  <PageHero eyebrow="Data Import & Export" title="Switch to Mirab without losing your old data" description="Safe import with a full preview before committing, and smart matching that prevents duplicate customers during the move." />
+
+  <FeatureShowcase panelTitle={showcase.panelTitle} tiles={showcase.tiles} rows={showcase.rows} chips={showcase.chips} />
+
+  <FeatureDetailGrid items={items} label="Feature Details" />
+
+  <section class="px-6 md:px-20 pb-10 md:pb-14">
+    <div class="max-w-[820px] mx-auto">
+      <a href={pathFor('en', 'migration')} class="flex items-center justify-between gap-4 bg-navy-900/5 border border-navy-900/10 rounded-xl px-6 py-5 hover:border-navy-500/40 transition-colors">
+        <div class="flex flex-col gap-1">
+          <span class="text-[15px] font-bold text-navy-900">Want a step-by-step walkthrough?</span>
+          <span class="text-[13.5px] text-gray-600">See the full migration guide from your old data to Mirab.</span>
+        </div>
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#0B1F3A" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" class="shrink-0"><path d="m9 6 6 6-6 6"/></svg>
+      </a>
+    </div>
+  </section>
+
+  <CTABanner lang="en" title="Move your garage's data safely, in minutes." ctaLabel="Try It Free" />
+</BaseLayout>

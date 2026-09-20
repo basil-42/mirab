@@ -1,0 +1,43 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import PageHero from '../../components/PageHero.astro';
+import FeatureShowcase from '../../components/FeatureShowcase.astro';
+import FeatureDetailGrid from '../../components/FeatureDetailGrid.astro';
+import CTABanner from '../../components/CTABanner.astro';
+
+const showcase = {
+  panelTitle: 'Security Overview',
+  tiles: [
+    { label: 'Active users', value: '6' },
+    { label: 'Two-factor auth', value: 'Enabled' },
+    { label: 'Last backup', value: 'Today 3:00 AM' },
+  ],
+  rows: [
+    { label: 'Technician — limited access', badge: 'Active', badgeVariant: 'sent' as const },
+    { label: 'Cloud backup', badge: 'Completed', badgeVariant: 'sent' as const },
+  ],
+  chips: [
+    { icon: 'check' as const, title: '2FA enabled', subtitle: 'Via Google Authenticator' },
+    { icon: 'alert' as const, title: 'Login attempt blocked', subtitle: 'Exceeded allowed attempts' },
+    { icon: 'mail' as const, title: 'User invitation sent', subtitle: 'Secure activation link' },
+  ],
+};
+
+const items = [
+  { icon: 'users' as const, title: 'Fine-Grained Roles & Permissions', desc: 'Full control over what each user can see or change, via custom roles (module × action) instead of relying on generic permission levels only.' },
+  { icon: 'audit' as const, title: 'Two-Factor Authentication (2FA)', desc: 'Extra login protection via standard authenticator apps (Google Authenticator and similar), with direct in-app QR code scanning.' },
+  { icon: 'lock' as const, title: 'Login Protection', desc: 'A cap on failed login attempts, CSRF protection on every request, and secure session cookies to prevent unauthorized access.' },
+  { icon: 'mail' as const, title: 'Secure User Invitations', desc: 'Adding a new user never requires manually sharing a password — the user receives a secure activation link by email to set up their own account.' },
+  { icon: 'cloud' as const, title: 'Local & Cloud Backups', desc: 'Automatic daily backups plus optional direct cloud upload (Cloudflare R2 / Amazon S3 compatible), with full restore from any previous backup when needed, and a configurable retention period.' },
+];
+---
+
+<BaseLayout lang="en" slug="security" title="Security & Access Control — Mirab" description="Fine-grained permissions, two-factor authentication, and local & cloud backups.">
+  <PageHero eyebrow="Security & Access Control" title="Enterprise-ready security, built in" description="From fine-grained permissions to two-factor authentication and cloud backups — your data protected by real enterprise standards." />
+
+  <FeatureShowcase panelTitle={showcase.panelTitle} tiles={showcase.tiles} rows={showcase.rows} chips={showcase.chips} />
+
+  <FeatureDetailGrid items={items} label="Feature Details" />
+
+  <CTABanner lang="en" title="Protect your garage's data from day one." ctaLabel="Try It Free" />
+</BaseLayout>

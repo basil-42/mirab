@@ -1,0 +1,19 @@
+---
+interface Props {
+  items: string[];
+  columns?: 1 | 2;
+}
+const { items, columns = 2 } = Astro.props;
+const colClass = columns === 2 ? 'md:grid-cols-2' : '';
+---
+
+<div class:list={["grid grid-cols-1 gap-4", colClass]}>
+  {items.map((item) => (
+    <div class="flex items-start gap-3 bg-white border border-gray-300 rounded-xl p-4 hover:-translate-y-0.5 hover:shadow-md hover:border-navy-500/30 transition-all">
+      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#2A5490" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" class="shrink-0 mt-0.5">
+        <path d="M20 6 9 17l-5-5"/>
+      </svg>
+      <span class="text-[14.5px] leading-[1.7] text-ink">{item}</span>
+    </div>
+  ))}
+</div>

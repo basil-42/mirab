@@ -1,0 +1,83 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import HomeHero from '../../components/HomeHero.astro';
+import TrustBar from '../../components/TrustBar.astro';
+import SegmentsSection from '../../components/SegmentsSection.astro';
+import HowItWorks from '../../components/HowItWorks.astro';
+import ProductPreview from '../../components/ProductPreview.astro';
+import ComparisonSection from '../../components/ComparisonSection.astro';
+import IntegrationsSection from '../../components/IntegrationsSection.astro';
+import FeatureHub from '../../components/FeatureHub.astro';
+import CheckGrid from '../../components/CheckGrid.astro';
+import CTABanner from '../../components/CTABanner.astro';
+
+const highlights = [
+  'Full customer, vehicle & service history management',
+  'Interactive job cards with a visual vehicle inspection diagram',
+  'Quotations & invoices that convert to each other in one click',
+  'Instant document delivery via Email & WhatsApp',
+  'Live dashboard & financial reports',
+  'Fine-grained user permissions + two-factor authentication',
+  'Automatic local & cloud backups',
+  'Works seamlessly on mobile, tablet, and desktop',
+];
+
+// Identifies the page as business software (not generic content) for search
+// engines. Deliberately omits "offers"/"aggregateRating" — no real price or
+// rating exists yet, and fabricating either would be worse than omitting them.
+const site = Astro.site?.origin ?? 'https://example.com';
+const structuredData = {
+  '@context': 'https://schema.org',
+  '@type': 'SoftwareApplication',
+  name: 'Mirab',
+  applicationCategory: 'BusinessApplication',
+  operatingSystem: 'Web',
+  description: 'A bilingual (Arabic/English) cloud system built specifically for auto garages and service centers in Qatar and the Gulf.',
+  url: site,
+  inLanguage: ['ar', 'en'],
+};
+---
+
+<BaseLayout lang="en" slug="" title="Mirab — Complete Garage Management System" description="A bilingual (Arabic/English) cloud system built specifically for auto garages and service centers in Qatar and the Gulf." structuredData={structuredData}>
+  <HomeHero
+    lang="en"
+    badge="Integrated Garage Management System"
+    title="A complete garage management system — from vehicle intake to invoice collection, all in one place."
+    subtitle="A bilingual (Arabic/English) cloud system built specifically for auto garages and service centers — managing customers, vehicles, job cards, quotations, invoices, and payments, with real-time financial reports and full automation for reminders and documents."
+    ctaPrimary="Try It Free"
+    ctaSecondary="Explore Features"
+    chips={["Job cards & billing", "Inventory tracking", "Customer records"]}
+    dashboard={{
+      title: 'Dashboard',
+      stat1Label: "Today's Requests", stat1Value: '14',
+      stat2Label: 'In Progress', stat2Value: '6',
+      stat3Label: 'Overdue Invoices', stat3Value: '3',
+      row1: '#1024 — Oil Change', row1Status: 'Completed',
+      row2: '#1025 — Brake Check', row2Status: 'In Progress',
+      row3: '#1026 — Routine Service', row3Status: 'Awaiting Parts',
+    }}
+  />
+
+  <TrustBar lang="en" />
+
+  <SegmentsSection lang="en" />
+
+  <HowItWorks lang="en" />
+
+  <ProductPreview lang="en" />
+
+  <ComparisonSection lang="en" />
+
+  <IntegrationsSection lang="en" />
+
+  <section class="px-6 md:px-20 py-14 md:py-16">
+    <h2 class="text-[24px] md:text-[28px] font-bold text-navy-900 text-center mb-10">Top Highlights</h2>
+    <div class="max-w-[900px] mx-auto">
+      <CheckGrid items={highlights} />
+    </div>
+  </section>
+
+  <FeatureHub lang="en" />
+
+  <CTABanner lang="en" title="Try the system now and see how many manual hours it saves your team every week." ctaLabel="Try It Free" />
+</BaseLayout>

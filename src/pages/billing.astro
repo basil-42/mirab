@@ -1,0 +1,42 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import PageHero from '../components/PageHero.astro';
+import FeatureShowcase from '../components/FeatureShowcase.astro';
+import FeatureDetailGrid from '../components/FeatureDetailGrid.astro';
+import CTABanner from '../components/CTABanner.astro';
+
+const showcase = {
+  panelTitle: 'لوحة التحكم المالية',
+  tiles: [
+    { label: 'إيرادات الشهر', value: '48,200 ر.ق' },
+    { label: 'فواتير متأخرة', value: '5', accent: true },
+    { label: 'رصيد عملاء', value: '6,150 ر.ق' },
+  ],
+  rows: [
+    { label: 'فاتورة #2031 — ورشة الخليج', badge: 'متأخرة 5 أيام', badgeVariant: 'amber' as const },
+    { label: 'فاتورة #2028 — محمد العلي', badge: 'متأخرة 21 يومًا', badgeVariant: 'urgent' as const },
+  ],
+  chips: [
+    { icon: 'check' as const, title: 'تم تحصيل الدفعة', subtitle: 'فاتورة #2031 — 640 ر.ق' },
+    { icon: 'alert' as const, title: 'تذكير تلقائي أُرسل', subtitle: '5 فواتير متأخرة' },
+    { icon: 'doc' as const, title: 'تصدير Excel', subtitle: 'Q3-revenue.xlsx' },
+  ],
+};
+
+const items = [
+  { icon: 'dashboard' as const, title: 'لوحة تحكم ديناميكية', desc: 'نظرة شاملة يومية/أسبوعية/شهرية/سنوية على الإيرادات، الفواتير المتأخرة، السيارات المستحقة للصيانة، ورصيد العملاء — بتحديث فوري دون إعادة تحميل الصفحة.' },
+  { icon: 'report' as const, title: 'التقارير المالية', desc: 'تقارير جاهزة للإيرادات، المدفوعات المستلمة، الفواتير المتأخرة (مع تصنيف حسب مدة التأخير)، وإجمالي المستحقات لكل عميل — جميعها قابلة للترقيم والبحث والتصدير الكامل.' },
+  { icon: 'export' as const, title: 'تصدير Excel وCSV', desc: 'تصدير أي تقرير أو قائمة بيانات مباشرة إلى ملف Excel أو CSV بضغطة واحدة، لاستخدامها في المحاسبة أو المشاركة الخارجية.' },
+  { icon: 'audit' as const, title: 'سجل تدقيق كامل', desc: 'تسجيل تلقائي لكل إجراء يحدث في النظام (إنشاء، تعديل، حذف، إرسال) مع اسم المستخدم والتوقيت، قابل للفلترة والتصدير — شفافية كاملة على كل حركة مالية أو إدارية.' },
+];
+---
+
+<BaseLayout lang="ar" slug="billing" title="الفوترة والتقارير المالية — مِرآب" description="لوحة تحكم حية وتقارير مالية جاهزة للتصدير، مع سجل تدقيق كامل لكل حركة.">
+  <PageHero eyebrow="الفوترة والتقارير المالية" title="أرقامك المالية أمامك، لحظة بلحظة" description="من لوحة تحكم حية إلى تقارير قابلة للتصدير وسجل تدقيق شفاف — كل ما تحتاجه لمتابعة صحة ورشتك المالية." />
+
+  <FeatureShowcase panelTitle={showcase.panelTitle} tiles={showcase.tiles} rows={showcase.rows} chips={showcase.chips} />
+
+  <FeatureDetailGrid items={items} label="تفاصيل الميزة" />
+
+  <CTABanner lang="ar" title="تابع إيرادات ورشتك بدقة من اليوم الأول." ctaLabel="ابدأ الآن مجانًا" />
+</BaseLayout>

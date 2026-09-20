@@ -1,0 +1,43 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import PageHero from '../../components/PageHero.astro';
+import FeatureShowcase from '../../components/FeatureShowcase.astro';
+import FeatureDetailGrid from '../../components/FeatureDetailGrid.astro';
+import CTABanner from '../../components/CTABanner.astro';
+
+const showcase = {
+  panelTitle: 'Integrations Panel',
+  tiles: [
+    { label: 'Connected channels', value: '4/4' },
+    { label: 'Documents sent today', value: '18' },
+    { label: 'Last cloud backup', value: 'Today 3:00 AM' },
+  ],
+  rows: [
+    { label: 'WhatsApp — Official API', badge: 'Connected', badgeVariant: 'sent' as const },
+    { label: 'Cloudflare R2', badge: 'Connected', badgeVariant: 'sent' as const },
+  ],
+  chips: [
+    { icon: 'chat' as const, title: 'Invoice sent via WhatsApp', subtitle: 'Invoice #2031 — Gulf Garage' },
+    { icon: 'export' as const, title: 'Excel export completed', subtitle: 'Q3-revenue.xlsx' },
+    { icon: 'cloud' as const, title: 'Cloud backup completed', subtitle: 'Cloudflare R2' },
+  ],
+};
+
+const items = [
+  { icon: 'chat' as const, title: 'WhatsApp', desc: 'Send quotations, invoices, and receipts directly via WhatsApp with a secure link — no account or login required from the customer, using a ready, fully customizable message text.' },
+  { icon: 'mail' as const, title: 'Email', desc: 'Send any document (quotation, invoice, job card, receipt, statement) directly to the customer via your own email, with fully customizable message templates for every document type.' },
+  { icon: 'sheet' as const, title: 'Excel / CSV', desc: 'Bulk-import your old data (customers, invoices, job cards, quotations) with a full preview before committing (dry run), and export any report or data list directly to Excel or CSV in one click.' },
+  { icon: 'cloud' as const, title: 'Cloudflare R2 / Amazon S3', desc: 'Compatible cloud backup, alongside automatic daily local backups, with full restore from any previous backup and a configurable retention period.' },
+  { icon: 'link' as const, title: 'Secure Share Links', desc: 'A secure, scoped link for every document, allowing the customer to view and download the invoice or quotation without any account or password.' },
+];
+---
+
+<BaseLayout lang="en" slug="integrations" title="Integrations — Mirab" description="WhatsApp, email, Excel/CSV, and cloud backups — the channels and files your team already works with, built into Mirab.">
+  <PageHero eyebrow="Integrations" title="Integrates with the tools your team already uses" description="No new systems to learn and no extra third-party tools required — the channels and files you already work with every day are built in." />
+
+  <FeatureShowcase panelTitle={showcase.panelTitle} tiles={showcase.tiles} rows={showcase.rows} chips={showcase.chips} />
+
+  <FeatureDetailGrid items={items} label="Feature Details" />
+
+  <CTABanner lang="en" title="Ready to connect your tools to Mirab?" ctaLabel="Try It Free" />
+</BaseLayout>

@@ -1,0 +1,23 @@
+---
+import { siteName } from '../i18n/nav';
+import type { Lang } from '../i18n/nav';
+
+interface Props {
+  lang: Lang;
+  reversed?: boolean;
+}
+
+const { lang, reversed = false } = Astro.props;
+const mark = reversed ? '#FFFFFF' : '#0B1F3A';
+const wordColor = reversed ? '#FFFFFF' : '#0B1F3A';
+---
+
+<a href={lang === 'ar' ? '/' : '/en/'} class="flex items-center gap-[11px] shrink-0" aria-label={siteName[lang].full}>
+  <svg viewBox="0 0 100 100" width="32" height="32" fill="none" aria-hidden="true">
+    <polyline points="6,84 28,18 50,84 72,18 94,84" fill="none" stroke={mark} stroke-width="13" stroke-linecap="round" stroke-linejoin="round"></polyline>
+    <circle cx="72" cy="18" r="9" fill="#E0932E"></circle>
+  </svg>
+  <span class:list={["font-bold text-[20px] leading-none", lang === 'ar' ? 'font-ar' : 'font-en']} style={{ color: wordColor }}>
+    {siteName[lang].full}
+  </span>
+</a>

@@ -1,0 +1,83 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import HomeHero from '../components/HomeHero.astro';
+import TrustBar from '../components/TrustBar.astro';
+import SegmentsSection from '../components/SegmentsSection.astro';
+import HowItWorks from '../components/HowItWorks.astro';
+import ProductPreview from '../components/ProductPreview.astro';
+import ComparisonSection from '../components/ComparisonSection.astro';
+import IntegrationsSection from '../components/IntegrationsSection.astro';
+import FeatureHub from '../components/FeatureHub.astro';
+import CheckGrid from '../components/CheckGrid.astro';
+import CTABanner from '../components/CTABanner.astro';
+
+const highlights = [
+  'إدارة كاملة للعملاء والسيارات وسجل الصيانة',
+  'بطاقات عمل تفاعلية مع مخطط فحص السيارة',
+  'عروض أسعار وفواتير قابلة للتحويل التلقائي بضغطة واحدة',
+  'إرسال المستندات فورياً عبر البريد وواتساب',
+  'تقارير مالية ولوحة تحكم حية',
+  'صلاحيات دقيقة لكل مستخدم + مصادقة ثنائية',
+  'نسخ احتياطي تلقائي محلي وسحابي',
+  'يعمل بسلاسة على الجوال والتابلت وسطح المكتب',
+];
+
+// Identifies the page as business software (not generic content) for search
+// engines. Deliberately omits "offers"/"aggregateRating" — no real price or
+// rating exists yet, and fabricating either would be worse than omitting them.
+const site = Astro.site?.origin ?? 'https://example.com';
+const structuredData = {
+  '@context': 'https://schema.org',
+  '@type': 'SoftwareApplication',
+  name: 'مِرآب',
+  applicationCategory: 'BusinessApplication',
+  operatingSystem: 'Web',
+  description: 'نظام سحابي عربي/إنجليزي مصمم خصيصاً لورش ومراكز صيانة السيارات في قطر والخليج.',
+  url: site,
+  inLanguage: ['ar', 'en'],
+};
+---
+
+<BaseLayout lang="ar" slug="" title="مِرآب — نظام إدارة كراج شامل" description="نظام سحابي عربي/إنجليزي مصمم خصيصاً لورش ومراكز صيانة السيارات في قطر والخليج." structuredData={structuredData}>
+  <HomeHero
+    lang="ar"
+    badge="نظام إدارة كراجات متكامل"
+    title="نظام إدارة كراج شامل — من استقبال السيارة حتى تحصيل الفاتورة، في مكان واحد."
+    subtitle="نظام سحابي عربي/إنجليزي مصمم خصيصاً لورش ومراكز صيانة السيارات، يدير العملاء والسيارات وبطاقات العمل وعروض الأسعار والفواتير والمدفوعات، مع تقارير مالية فورية وأتمتة كاملة للتذكيرات والمستندات."
+    ctaPrimary="ابدأ الآن مجانًا"
+    ctaSecondary="استعرض المميزات"
+    chips={["طلبات عمل وفوترة", "تتبع المخزون", "سجل عملاء"]}
+    dashboard={{
+      title: 'لوحة التحكم',
+      stat1Label: 'طلبات اليوم', stat1Value: '14',
+      stat2Label: 'قيد التنفيذ', stat2Value: '6',
+      stat3Label: 'فواتير مستحقة', stat3Value: '3',
+      row1: 'طلب #1024 — تغيير زيت', row1Status: 'مكتمل',
+      row2: 'طلب #1025 — فحص فرامل', row2Status: 'قيد التنفيذ',
+      row3: 'طلب #1026 — صيانة دورية', row3Status: 'بانتظار القطع',
+    }}
+  />
+
+  <TrustBar lang="ar" />
+
+  <SegmentsSection lang="ar" />
+
+  <HowItWorks lang="ar" />
+
+  <ProductPreview lang="ar" />
+
+  <ComparisonSection lang="ar" />
+
+  <IntegrationsSection lang="ar" />
+
+  <section class="px-6 md:px-20 py-14 md:py-16">
+    <h2 class="text-[24px] md:text-[28px] font-bold text-navy-900 text-center mb-10">أبرز المميزات</h2>
+    <div class="max-w-[900px] mx-auto">
+      <CheckGrid items={highlights} />
+    </div>
+  </section>
+
+  <FeatureHub lang="ar" />
+
+  <CTABanner lang="ar" title="جرّب النظام الآن وشاهد كيف يوفر عليك ساعات العمل اليدوي أسبوعياً." ctaLabel="ابدأ الآن مجانًا" />
+</BaseLayout>

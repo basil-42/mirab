@@ -1,0 +1,50 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import PageHero from '../components/PageHero.astro';
+import TrustBar from '../components/TrustBar.astro';
+import CTABanner from '../components/CTABanner.astro';
+import { pricingPage } from '../i18n/pricing';
+import { pathFor } from '../i18n/paths';
+
+const lang = 'ar' as const;
+const t = pricingPage[lang];
+
+// TODO: once the Cal.com account is set up, point this at the real booking
+// link (e.g. https://cal.com/<username>/demo) instead of the Contact page.
+const bookHref = pathFor(lang, 'contact');
+---
+
+<BaseLayout
+  lang={lang}
+  slug="pricing"
+  title="التسعير | مِرآب"
+  description="السعر يختلف حسب حجم ورشتك. احجز موعدًا مباشرًا واحصل على عرض توضيحي مجاني وعرض سعر مخصص."
+>
+  <PageHero
+    eyebrow={t.eyebrow}
+    title={t.title}
+    description={t.description}
+    ctaLabel={t.ctaLabel}
+    ctaHref={bookHref}
+    ctaNote={t.ctaNote}
+  />
+
+  <section class="px-6 md:px-20 py-14 md:py-16 bg-white">
+    <div class="max-w-[640px] mx-auto text-center mb-12">
+      <h2 class="text-[24px] md:text-[28px] font-bold text-navy-900">{t.stepsHeading}</h2>
+    </div>
+    <div class="max-w-[1180px] mx-auto grid grid-cols-1 sm:grid-cols-3 gap-5">
+      {t.steps.map((step, i) => (
+        <div class="relative flex flex-col gap-2.5 bg-bg border border-gray-300 rounded-xl p-6">
+          <span class="text-[13px] font-bold text-[#8A4A0F] tracking-wide">{String(i + 1).padStart(2, '0')}</span>
+          <h3 class="text-[15.5px] font-bold text-navy-900 leading-[1.5]">{step.title}</h3>
+          <p class="text-[13px] leading-[1.8] text-gray-600">{step.description}</p>
+        </div>
+      ))}
+    </div>
+  </section>
+
+  <TrustBar lang={lang} heading={t.includedHeading} subheading={t.includedSubheading} />
+
+  <CTABanner lang={lang} title={t.ctaBannerTitle} ctaLabel={t.ctaBannerLabel} />
+</BaseLayout>

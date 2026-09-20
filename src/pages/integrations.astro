@@ -1,0 +1,43 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import PageHero from '../components/PageHero.astro';
+import FeatureShowcase from '../components/FeatureShowcase.astro';
+import FeatureDetailGrid from '../components/FeatureDetailGrid.astro';
+import CTABanner from '../components/CTABanner.astro';
+
+const showcase = {
+  panelTitle: 'لوحة التكاملات',
+  tiles: [
+    { label: 'القنوات المتصلة', value: '4/4' },
+    { label: 'مستندات مُرسلة اليوم', value: '18' },
+    { label: 'آخر نسخة احتياطية سحابية', value: 'اليوم 3:00 ص' },
+  ],
+  rows: [
+    { label: 'واتساب — API الرسمي', badge: 'متصل', badgeVariant: 'sent' as const },
+    { label: 'Cloudflare R2', badge: 'متصل', badgeVariant: 'sent' as const },
+  ],
+  chips: [
+    { icon: 'chat' as const, title: 'فاتورة أُرسلت عبر واتساب', subtitle: 'فاتورة #2031 — ورشة الخليج' },
+    { icon: 'export' as const, title: 'تصدير Excel مكتمل', subtitle: 'Q3-revenue.xlsx' },
+    { icon: 'cloud' as const, title: 'نسخة احتياطية سحابية', subtitle: 'مكتملة — Cloudflare R2' },
+  ],
+};
+
+const items = [
+  { icon: 'chat' as const, title: 'واتساب', desc: 'إرسال عروض الأسعار والفواتير والإيصالات مباشرة عبر واتساب برابط آمن، دون الحاجة لحساب أو تسجيل دخول من العميل، بنص رسالة جاهز وقابل للتخصيص الكامل.' },
+  { icon: 'mail' as const, title: 'البريد الإلكتروني', desc: 'إرسال أي مستند (عرض سعر، فاتورة، بطاقة عمل، إيصال، كشف حساب) مباشرة للعميل عبر بريدك الخاص، بقوالب رسائل قابلة للتخصيص الكامل لكل نوع مستند.' },
+  { icon: 'sheet' as const, title: 'Excel / CSV', desc: 'استيراد جماعي لبياناتك القديمة (عملاء، فواتير، بطاقات عمل، عروض أسعار) بمعاينة كاملة قبل التنفيذ (Dry Run)، وتصدير أي تقرير أو قائمة بيانات مباشرة إلى Excel أو CSV بضغطة واحدة.' },
+  { icon: 'cloud' as const, title: 'Cloudflare R2 / Amazon S3', desc: 'نسخ احتياطي سحابي متوافق، إضافة إلى النسخ المحلي التلقائي اليومي، مع استرداد كامل من أي نسخة سابقة ومدة احتفاظ قابلة للتخصيص.' },
+  { icon: 'link' as const, title: 'روابط مشاركة آمنة', desc: 'رابط آمن ومحدود الصلاحية لكل مستند، يسمح للعميل بعرض وتحميل الفاتورة أو العرض دون أي حساب أو كلمة مرور.' },
+];
+---
+
+<BaseLayout lang="ar" slug="integrations" title="التكاملات — مِرآب" description="واتساب، البريد الإلكتروني، Excel/CSV، والنسخ الاحتياطي السحابي — القنوات والملفات التي يعمل بها فريقك بالفعل، مدمجة في مِرآب.">
+  <PageHero eyebrow="التكاملات" title="يتكامل مع الأدوات التي يستخدمها فريقك بالفعل" description="لا حاجة لتعلم أنظمة جديدة أو الاعتماد على حلول خارجية إضافية — القنوات والملفات التي تعمل بها يوميًا مدمجة في النظام." />
+
+  <FeatureShowcase panelTitle={showcase.panelTitle} tiles={showcase.tiles} rows={showcase.rows} chips={showcase.chips} />
+
+  <FeatureDetailGrid items={items} label="تفاصيل الميزة" />
+
+  <CTABanner lang="ar" title="جاهز لربط أدواتك بمِرآب؟" ctaLabel="ابدأ الآن مجانًا" />
+</BaseLayout>

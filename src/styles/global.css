@@ -1,0 +1,46 @@
+@import "tailwindcss";
+
+@import "@fontsource/ibm-plex-sans/400.css";
+@import "@fontsource/ibm-plex-sans/500.css";
+@import "@fontsource/ibm-plex-sans/600.css";
+@import "@fontsource/ibm-plex-sans/700.css";
+@import "@fontsource/ibm-plex-sans-arabic/400.css";
+@import "@fontsource/ibm-plex-sans-arabic/500.css";
+@import "@fontsource/ibm-plex-sans-arabic/600.css";
+@import "@fontsource/ibm-plex-sans-arabic/700.css";
+
+@theme {
+  /* Mirab brand palette */
+  --color-navy-900: #0B1F3A;
+  --color-navy-700: #16345C;
+  --color-navy-500: #2A5490;
+  --color-amber-500: #E0932E;
+  --color-amber-300: #F0B968;
+  --color-bg: #F7F5F1;
+  --color-ink: #14171C;
+  --color-gray-600: #5B6472;
+  --color-gray-300: #E3E6EB;
+
+  --font-en: "IBM Plex Sans", ui-sans-serif, system-ui, sans-serif;
+  --font-ar: "IBM Plex Sans Arabic", Tahoma, sans-serif;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  background-color: var(--color-bg);
+  color: var(--color-ink);
+}
+
+/* Logical properties keep RTL/LTR mirrored automatically wherever Tailwind's
+   ms-/me-/ps-/pe- utilities are used. This class covers hand-written spots. */
+.dir-aware {
+  text-align: start;
+}
+
+::selection {
+  background-color: var(--color-amber-300);
+  color: var(--color-navy-900);
+}

@@ -1,0 +1,44 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import PageHero from '../../components/PageHero.astro';
+import FeatureShowcase from '../../components/FeatureShowcase.astro';
+import FeatureDetailGrid from '../../components/FeatureDetailGrid.astro';
+import CTABanner from '../../components/CTABanner.astro';
+
+const showcase = {
+  panelTitle: 'Delivery Log',
+  tiles: [
+    { label: 'Via email', value: '82' },
+    { label: 'Via WhatsApp', value: '46' },
+    { label: 'Reminders sent', value: '12', accent: true },
+  ],
+  rows: [
+    { label: 'Invoice #2031 — Gulf Garage', badge: 'Sent by email', badgeVariant: 'sent' as const },
+    { label: 'Quotation #418 — Al Wafa Co.', badge: 'Sent via WhatsApp', badgeVariant: 'sent' as const },
+  ],
+  chips: [
+    { icon: 'check' as const, title: 'Sent successfully', subtitle: 'Invoice #2031 — WhatsApp' },
+    { icon: 'alert' as const, title: 'Automatic reminder for overdue', subtitle: '5 customers' },
+    { icon: 'signature' as const, title: 'Digital signature added', subtitle: 'Company stamp + signature' },
+  ],
+};
+
+const items = [
+  { icon: 'mail' as const, title: 'Email Delivery', desc: 'Send any document (quotation, invoice, job card, receipt, statement) directly to the customer via your own email, using fully customizable message templates from settings.' },
+  { icon: 'chat' as const, title: 'WhatsApp Delivery', desc: 'Send the same documents via WhatsApp with a ready, customizable message text and a direct link to the document — no customer login required.' },
+  { icon: 'link' as const, title: 'Public Shareable Document Links', desc: 'A secure, scoped link for every document, allowing the customer to view and download the invoice or quotation without any account or password.' },
+  { icon: 'alert' as const, title: 'Overdue Invoice Reminders', desc: 'Remind customers with overdue invoices in one click — individually or in bulk — accelerating collections without manual follow-up.' },
+  { icon: 'bulk' as const, title: 'Bulk Actions', desc: 'Select multiple invoices or quotations at once to apply an action across all of them: mark as sent, delete, export to PDF, or send a reminder — saving time when handling large volumes of records.' },
+  { icon: 'signature' as const, title: 'Digital Signature & Stamp', desc: "Automatically add your company's signature and stamp to every exported document, with full control over where each appears from settings." },
+];
+---
+
+<BaseLayout lang="en" slug="automation" title="Automation & Customer Communication — Mirab" description="Deliver documents via email and WhatsApp, automatic reminders, and bulk actions that save you time.">
+  <PageHero eyebrow="Automation & Customer Communication" title="Less manual work, faster customer communication" description="From document delivery to collection reminders — automation that handles the repetitive tasks in one click." />
+
+  <FeatureShowcase panelTitle={showcase.panelTitle} tiles={showcase.tiles} rows={showcase.rows} chips={showcase.chips} />
+
+  <FeatureDetailGrid items={items} label="Feature Details" />
+
+  <CTABanner lang="en" title="Save hours of manual work every week." ctaLabel="Try It Free" />
+</BaseLayout>

@@ -1,0 +1,29 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import PageHero from '../../components/PageHero.astro';
+import FAQList from '../../components/FAQList.astro';
+import CTABanner from '../../components/CTABanner.astro';
+import { faqPage } from '../../i18n/faq';
+
+const p = faqPage.en;
+
+const structuredData = {
+  '@context': 'https://schema.org',
+  '@type': 'FAQPage',
+  mainEntity: p.items.map((item) => ({
+    '@type': 'Question',
+    name: item.q,
+    acceptedAnswer: { '@type': 'Answer', text: item.a },
+  })),
+};
+---
+
+<BaseLayout lang="en" slug="faq" title="FAQ — Mirab" description="Direct answers to the most common questions about security, migrating from an old system, and day-to-day use of Mirab." structuredData={structuredData}>
+  <PageHero eyebrow={p.eyebrow} title={p.title} description={p.description} />
+
+  <section class="px-6 md:px-20 py-4 md:py-10">
+    <FAQList items={p.items} />
+  </section>
+
+  <CTABanner lang="en" title={p.ctaTitle} ctaLabel="Contact Us" />
+</BaseLayout>

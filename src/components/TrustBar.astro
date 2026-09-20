@@ -1,0 +1,49 @@
+---
+import { trustBar } from '../i18n/home';
+import type { Lang } from '../i18n/nav';
+
+interface Props {
+  lang: Lang;
+  heading?: string;
+  subheading?: string;
+}
+const { lang, heading, subheading } = Astro.props;
+const t = trustBar[lang];
+const displayHeading = heading ?? t.heading;
+const displaySubheading = subheading ?? t.subheading;
+
+// Same green used for the "ok" status in the product-preview inspection checklist,
+// so this card reads as the same UI language rather than a new pattern.
+const checkColor = '#2E7D4F';
+---
+
+<section class="bg-white px-6 md:px-20 py-14 md:py-16">
+  <div class="max-w-[720px] mx-auto text-center mb-12">
+    <h2 class="text-[24px] md:text-[28px] font-bold text-navy-900">{displayHeading}</h2>
+    <p class="text-[15px] md:text-[16px] text-gray-600 mt-3 leading-[1.8]">{displaySubheading}</p>
+  </div>
+
+  <div class="max-w-[680px] mx-auto bg-bg border border-gray-300 rounded-2xl shadow-lg overflow-hidden">
+    <div class="bg-navy-900 px-5 py-4 flex items-center justify-between">
+      <span class="text-white font-semibold text-[14px]">{t.cardLabel}</span>
+      <div class="flex gap-1.5">
+        <div class="w-2 h-2 rounded-full bg-amber-500"></div>
+        <div class="w-2 h-2 rounded-full bg-white/30"></div>
+        <div class="w-2 h-2 rounded-full bg-white/30"></div>
+      </div>
+    </div>
+    <div class="p-5 flex flex-col gap-2.5">
+      {t.items.map((item) => (
+        <div class="flex items-center justify-between gap-3.5 px-3.5 py-3 bg-white border border-gray-300 rounded-lg">
+          <div class="flex flex-col gap-0.5">
+            <span class="text-[13.5px] font-semibold text-ink">{item.title}</span>
+            <span class="text-[12px] leading-[1.7] text-gray-600">{item.description}</span>
+          </div>
+          <span class="w-[22px] h-[22px] rounded-full flex items-center justify-center shrink-0" style={`background:${checkColor}`}>
+            <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg>
+          </span>
+        </div>
+      ))}
+    </div>
+  </div>
+</section>

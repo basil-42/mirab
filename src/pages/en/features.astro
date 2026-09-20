@@ -1,0 +1,92 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import PageHero from '../../components/PageHero.astro';
+import FeatureJourney from '../../components/FeatureJourney.astro';
+import CTABanner from '../../components/CTABanner.astro';
+
+const steps = [
+  {
+    icon: 'users' as const, accent: 'navy' as const, stepLabel: 'Step 01',
+    title: 'Customer Management',
+    desc: 'A unified profile for every customer — details, vehicles, transaction history, and a full shareable account statement via a direct link. Automatic duplicate detection (by name or phone) when adding a new customer, plus instant live search across every creation window.',
+    snippet: {
+      leading: { type: 'avatar' as const, text: 'AK' },
+      title: 'Ahmed Al-Kuwari',
+      subtitle: '5551 2345 — 1 vehicle on file',
+      trailing: { type: 'badge' as const, text: 'No duplicate found', variant: 'sent' as const },
+    },
+  },
+  {
+    icon: 'car' as const, accent: 'navy' as const, stepLabel: 'Step 02',
+    title: 'Vehicle Management',
+    desc: 'Every vehicle linked to its owner with a full service history, filterable/searchable upcoming-maintenance alerts, and one-click email reminders sent directly to the customer.',
+    snippet: {
+      leading: { type: 'icon' as const },
+      title: 'Toyota Camry — Plate 34521',
+      subtitle: 'Automatically linked to Ahmed Al-Kuwari',
+    },
+  },
+  {
+    icon: 'jobcard' as const, accent: 'navy' as const, stepLabel: 'Step 03',
+    title: 'Job Cards',
+    desc: 'A complete digital job card for every visit: technician assignment, status tracking, and automatic linkage back to the originating quotation. Converts to an invoice in a single click once work is complete.',
+    snippet: {
+      title: 'Job Card #877',
+      subtitle: 'Technician: Salem — Toyota Camry 34521',
+      trailing: { type: 'badge' as const, text: 'In progress', variant: 'amber' as const },
+    },
+  },
+  {
+    icon: 'quotation' as const, accent: 'navy' as const, stepLabel: 'Step 04',
+    title: 'Quotations',
+    desc: 'Professional quotations with sequential auto-numbering, sent directly to the customer, and later converted into a job card or invoice with zero re-entry of data.',
+    snippet: {
+      title: 'Quotation #419',
+      subtitle: 'Ahmed Al-Kuwari — Oil change & brake check',
+      trailing: { type: 'badge' as const, text: 'Sent', variant: 'sent' as const },
+    },
+  },
+  {
+    icon: 'invoice' as const, accent: 'amber' as const, stepLabel: 'Step 05',
+    title: 'Invoices',
+    desc: 'Invoices with automatically computed status (draft, sent, partial, paid, overdue, cancelled) based on actual payments received — with amount edits locked once a payment is recorded, protecting accounting accuracy.',
+    snippet: {
+      title: 'Invoice #2032 — QAR 275',
+      subtitle: 'Automatically converted from Quotation #419',
+      trailing: { type: 'badge' as const, text: 'Partial', variant: 'amber' as const },
+    },
+  },
+  {
+    icon: 'payment' as const, accent: 'amber' as const, stepLabel: 'Step 06',
+    title: 'Payments & Customer Credit',
+    desc: 'Full or partial payments in any method, plus a customer credit-balance system that accepts advance payments or automatically converts cancelled-invoice amounts into usable credit for future transactions.',
+    snippet: {
+      title: 'Payment received — QAR 200',
+      subtitle: 'Cash — QAR 75 remaining',
+      trailing: { type: 'check' as const },
+    },
+  },
+  {
+    icon: 'receipt' as const, accent: 'amber' as const, stepLabel: 'Step 07',
+    title: 'Payment Receipts',
+    desc: 'An automatically numbered official receipt for every payment, ready to download or send to the customer instantly.',
+    snippet: {
+      title: 'Receipt #R-2032',
+      subtitle: 'Ready to send — WhatsApp / email',
+      trailing: { type: 'badge' as const, text: 'Issued', variant: 'sent' as const },
+    },
+  },
+];
+---
+
+<BaseLayout lang="en" slug="features" title="Core Features — Mirab" description="Manage customers, vehicles, job cards, quotations, invoices, and payments in one system.">
+  <PageHero eyebrow="Core Features" title="Every garage operation, in one connected system" description="From the first customer contact to the last payment collected — no re-entry, no gaps between tools." />
+
+  <FeatureJourney
+    eyebrow="See it in action — one connected customer journey"
+    subtitle="Follow how one customer's data and vehicle move through every step — never typed twice"
+    steps={steps}
+  />
+
+  <CTABanner lang="en" title="Ready to try these features on your garage?" ctaLabel="Try It Free" />
+</BaseLayout>

@@ -1,0 +1,41 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import PageHero from '../components/PageHero.astro';
+import FeatureShowcase from '../components/FeatureShowcase.astro';
+import FeatureDetailGrid from '../components/FeatureDetailGrid.astro';
+import CTABanner from '../components/CTABanner.astro';
+
+const showcase = {
+  panelTitle: 'مخطط الفحص التفاعلي',
+  tiles: [
+    { label: 'مناطق قابلة للنقر', value: '29' },
+    { label: 'الحالة العامة', value: 'يحتاج متابعة', accent: true },
+    { label: 'آخر فحص', value: 'اليوم 9:40 ص' },
+  ],
+  rows: [
+    { label: 'المصباح الأمامي', badge: 'يحتاج متابعة', badgeVariant: 'amber' as const },
+    { label: 'الفرامل الخلفية', badge: 'يتطلب إجراء فوري', badgeVariant: 'urgent' as const },
+  ],
+  chips: [
+    { icon: 'check' as const, title: 'اكتمل الفحص', subtitle: 'تويوتا كامري — لوحة 34521' },
+    { icon: 'alert' as const, title: 'تذكير صيانة أُرسل', subtitle: 'إلى العميل عبر البريد' },
+    { icon: 'doc' as const, title: 'ظهر في بطاقة العمل', subtitle: 'PDF جاهز للطباعة' },
+  ],
+};
+
+const items = [
+  { icon: 'target' as const, title: 'مخطط فحص تفاعلي', desc: 'عند استلام أي سيارة، يقوم الفني بتسجيل ملاحظاته مباشرة على مخطط بصري تفاعلي للسيارة (٢٩ منطقة قابلة للنقر: الأبواب، الإضاءة، الإطارات، المرايا، من كل الجوانب) — بدل الاعتماد على ملاحظات نصية قد تُفهم بشكل خاطئ.' },
+  { icon: 'export' as const, title: 'ظهور الفحص في المستندات المطبوعة', desc: 'يظهر مخطط الفحص كاملاً داخل بطاقة العمل المطبوعة أو المُحمَّلة كـPDF، ليكون مرجعاً موثقاً لحالة السيارة عند الاستلام.' },
+  { icon: 'alert' as const, title: 'تذكيرات الصيانة القادمة', desc: 'تنبيهات تلقائية للسيارات المستحقة لصيانة قريبة، مع إمكانية إرسال تذكير مباشر للعميل عبر البريد الإلكتروني بضغطة واحدة.' },
+];
+---
+
+<BaseLayout lang="ar" slug="inspection" title="فحص السيارة والصيانة الوقائية — مِرآب" description="مخطط فحص تفاعلي موثّق يظهر في المستندات، مع تذكيرات صيانة تلقائية.">
+  <PageHero eyebrow="فحص السيارة والصيانة الوقائية" title="فحص موثّق بصريًا، لا ملاحظات قابلة للّبس" description="مخطط تفاعلي للسيارة يحوّل الفحص من ملاحظة نصية عرضة للخطأ، إلى مرجع بصري دقيق يظهر في كل مستند." />
+
+  <FeatureShowcase panelTitle={showcase.panelTitle} tiles={showcase.tiles} rows={showcase.rows} chips={showcase.chips} />
+
+  <FeatureDetailGrid items={items} label="تفاصيل الميزة" />
+
+  <CTABanner lang="ar" title="وثّق حالة كل سيارة من لحظة استلامها." ctaLabel="ابدأ الآن مجانًا" />
+</BaseLayout>

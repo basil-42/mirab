@@ -1,0 +1,123 @@
+---
+// "Customer journey" timeline for the Core Features overview page: a single
+// connected example (one customer, one vehicle) threaded through all seven
+// core modules, illustrating "no re-entry, no gaps between tools" instead of
+// just stating it. A vertical spine (navy -> amber gradient) connects each
+// step's icon node; steps alternate sides on desktop and stack on mobile.
+// All positioning uses logical (start/end) properties so it mirrors correctly
+// between the Arabic (rtl) and English (ltr) pages.
+interface StepLeading {
+  type: 'avatar' | 'icon';
+  text?: string; // avatar initials, when type === 'avatar'
+}
+interface StepTrailing {
+  type: 'badge' | 'check';
+  text?: string; // when type === 'badge'
+  variant?: 'sent' | 'amber';
+}
+interface Snippet {
+  leading?: StepLeading;
+  title: string;
+  subtitle: string;
+  trailing?: StepTrailing;
+}
+type StepIcon = 'users' | 'car' | 'jobcard' | 'quotation' | 'invoice' | 'payment' | 'receipt';
+interface Step {
+  icon: StepIcon;
+  accent: 'navy' | 'amber';
+  stepLabel: string;
+  title: string;
+  desc: string;
+  snippet: Snippet;
+}
+interface Props {
+  eyebrow: string;
+  subtitle: string;
+  steps: Step[];
+}
+const { eyebrow, subtitle, steps } = Astro.props;
+
+const ICONS: Record<StepIcon, string> = {
+  users: '<path d="M16 19v-1.5a3.5 3.5 0 0 0-3.5-3.5h-5A3.5 3.5 0 0 0 4 17.5V19"/><circle cx="9" cy="8" r="3.2"/><path d="M19.5 19v-1.5a3.3 3.3 0 0 0-2.3-3.15"/><path d="M14.7 4.7a3.2 3.2 0 0 1 0 6.1"/>',
+  car: '<path d="M5 17h-1.5a1 1 0 0 1-1-1.2l1-4.6A2 2 0 0 1 5.4 9.6l1-2.4A2 2 0 0 1 8.3 6h7.4a2 2 0 0 1 1.9 1.2l1 2.4a2 2 0 0 1 1.9 1.6l1 4.6a1 1 0 0 1-1 1.2H19"/><circle cx="7.5" cy="17" r="1.8"/><circle cx="16.5" cy="17" r="1.8"/><path d="M5 13h14"/>',
+  jobcard: '<rect x="5" y="4" width="14" height="17" rx="2"/><path d="M9 3.5h6a1 1 0 0 1 1 1V6H8V4.5a1 1 0 0 1 1-1Z"/><path d="m9 13 2 2 4-4"/>',
+  quotation: '<rect x="4" y="3" width="16" height="18" rx="2"/><path d="M8 8h8M8 12h8M8 16h4"/>',
+  invoice: '<rect x="4" y="2.5" width="16" height="19" rx="1.5"/><path d="M8 7h8M8 11h8M8 15h5"/>',
+  payment: '<rect x="2.5" y="5" width="19" height="14" rx="2"/><path d="M2.5 9.5h19"/><path d="M6 15h4"/>',
+  receipt: '<path d="M6 2.5h12v19l-2.5-1.5L13 21l-1-1.5-1 1.5-2.5-1.5L6 21.5Z"/><path d="M8.5 8h7M8.5 11.5h7"/>',
+};
+
+const badgeClass: Record<'sent' | 'amber', string> = {
+  sent: 'bg-[#E4F3E9] text-[#2E7D4F]',
+  amber: 'bg-amber-500/10 text-[#8A4A0F]',
+};
+
+function iconSvg(icon: StepIcon, color: string, size = 20, strokeWidth = 2) {
+  return `<svg width="${size}" height="${size}" viewBox="0 0 24 24" fill="none" stroke="${color}" stroke-width="${strokeWidth}" stroke-linecap="round" stroke-linejoin="round">${ICONS[icon]}</svg>`;
+}
+---
+
+<section class="px-6 md:px-16 py-8 md:py-14">
+  <div class="max-w-[980px] mx-auto text-center mb-12 md:mb-16">
+    <span class="text-[12px] font-bold text-navy-500 uppercase tracking-wide">{eyebrow}</span>
+    <p class="text-[14px] text-gray-600 mt-2">{subtitle}</p>
+  </div>
+
+  <div class="relative journey-spine max-w-[980px] mx-auto">
+    {steps.map((step, i) => {
+      const reversed = i % 2 === 0;
+      const nodeColor = step.accent === 'navy' ? '#2A5490' : '#E0932E';
+      const nodeBorder = step.accent === 'navy' ? 'border-navy-500' : 'border-amber-500';
+      return (
+        <div class:list={["relative flex flex-col md:flex-row items-start gap-5 md:gap-10", i < steps.length - 1 && "mb-10 md:mb-14", reversed && "md:flex-row-reverse"]}>
+          <div class="hidden md:block md:w-[calc(50%-28px)]" />
+          <div class:list={["absolute md:relative start-0 md:start-auto top-0 shrink-0 w-11 h-11 rounded-full bg-white border-2 flex items-center justify-center z-10", nodeBorder]} set:html={iconSvg(step.icon, nodeColor)} />
+          <div class="ps-16 md:ps-0 md:w-[calc(50%-28px)] flex flex-col gap-3">
+            <span class="text-[11px] font-bold text-navy-500">{step.stepLabel}</span>
+            <h3 class="text-[20px] md:text-[22px] font-bold text-navy-900">{step.title}</h3>
+            <p class="text-[14.5px] leading-[1.85] text-gray-600">{step.desc}</p>
+            <div class:list={["bg-white border border-gray-300 rounded-xl px-4 py-3 flex items-center gap-3 mt-1 shadow-[0_10px_24px_-16px_rgba(11,31,58,.25)]", step.snippet.trailing && "justify-between"]}>
+              <span class="flex items-center gap-3 min-w-0">
+                {step.snippet.leading?.type === 'avatar' && (
+                  <span class="w-9 h-9 rounded-full bg-navy-500/10 flex items-center justify-center text-[12.5px] font-bold text-navy-500 shrink-0">{step.snippet.leading.text}</span>
+                )}
+                {step.snippet.leading?.type === 'icon' && (
+                  <span class="w-9 h-9 rounded-lg bg-navy-500/10 flex items-center justify-center shrink-0" set:html={iconSvg(step.icon, '#2A5490', 16, 2.2)} />
+                )}
+                <span class="flex flex-col gap-0.5 min-w-0">
+                  <span class="text-[13px] font-bold text-navy-900">{step.snippet.title}</span>
+                  <span class="text-[11.5px] text-gray-600">{step.snippet.subtitle}</span>
+                </span>
+              </span>
+              {step.snippet.trailing?.type === 'badge' && (
+                <span class:list={["text-[10.5px] font-bold px-2 py-1 rounded-full shrink-0", badgeClass[step.snippet.trailing.variant ?? 'sent']]}>{step.snippet.trailing.text}</span>
+              )}
+              {step.snippet.trailing?.type === 'check' && (
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#2E7D4F" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" class="shrink-0"><path d="M20 6 9 17l-5-5"/></svg>
+              )}
+            </div>
+          </div>
+        </div>
+      );
+    })}
+  </div>
+</section>
+
+<style>
+  .journey-spine::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    inset-inline-start: 50%;
+    width: 2px;
+    margin-inline-start: -1px;
+    background: linear-gradient(to bottom, #2A5490, #E0932E);
+  }
+  @media (max-width: 767px) {
+    .journey-spine::before {
+      inset-inline-start: 23px;
+      margin-inline-start: 0;
+    }
+  }
+</style>

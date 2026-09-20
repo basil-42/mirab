@@ -1,0 +1,35 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import WhyHub from '../components/WhyHub.astro';
+import CTABanner from '../components/CTABanner.astro';
+
+const items = [
+  { icon: 'globe' as const, accent: 'navy' as const, label: 'مصمم لسوق الخليج', desc: 'الواجهة بأكملها — من الشاشات إلى الفواتير والتقارير — تدعم العربية والإنجليزية معًا، مع اتجاه الكتابة الصحيح (RTL) في كل صفحة. يمكن لفريق عربي وآخر أجنبي في نفس الورشة العمل على نفس البيانات دون أي نسخة مترجمة منفصلة.' },
+  { icon: 'link' as const, accent: 'amber' as const, label: 'سير عمل متكامل', desc: 'استلام السيارة، الفحص، أمر الإصلاح، الفاتورة، والتحصيل — كل مرحلة تُسجَّل في نفس السجل دون نسخ البيانات يدويًا بين أدوات منفصلة أو فقدان تفاصيل بين موظف وآخر.' },
+  { icon: 'box' as const, accent: 'navy' as const, label: 'استقلالية كاملة', desc: 'توليد ملفات PDF وExcel يتم داخل النظام نفسه، وليس عبر خدمة خارجية قد تتوقف أو ترفع أسعارها. هذا يعني عدم وجود فاتورة شهرية إضافية أو اعتماد على طرف ثالث لإصدار مستند بسيط.' },
+  { icon: 'bolt' as const, accent: 'amber' as const, label: 'أداء سريع بلا انقطاع', desc: 'بفضل بنية Single Page Application، التنقل بين الشاشات لا يعيد تحميل الصفحة كاملة في كل مرة — وهو فرق ملموس عند استقبال عدة سيارات في وقت الذروة.' },
+  { icon: 'shieldCheck' as const, accent: 'navy' as const, label: 'أمان بمستوى المؤسسات', desc: 'كل مستخدم يرى فقط ما يخص دوره، وكل تعديل على بيانات السيارة أو الفاتورة يُسجَّل في سجل تدقيق يوضح من قام به ومتى، مع نسخ احتياطي تلقائي للسحابة دون تدخل يدوي.' },
+  { icon: 'trendUp' as const, accent: 'amber' as const, label: 'ينمو مع ورشتك', desc: 'إضافة فني أو مستخدم جديد لا تتطلب أكثر من دقائق، سواء كانت الورشة تضم فريقًا صغيرًا أو عدة فروع — دون الحاجة لترحيل البيانات إلى نظام مختلف عند التوسع.' },
+];
+---
+
+<BaseLayout lang="ar" slug="why" title="لماذا مِرآب؟" description="نظام مصمم خصيصاً لسوق الخليج، متكامل من الاستلام حتى التحصيل، وقابل للتوسع مع نمو ورشتك.">
+  <section class="px-6 md:px-20 pt-16 pb-8 md:pt-20 md:pb-10">
+    <div class="max-w-[900px] mx-auto text-center flex flex-col items-center gap-5">
+      <span class="inline-flex items-center gap-2 bg-navy-900/5 text-navy-700 text-[13px] font-semibold px-3.5 py-1.5 rounded-full">لماذا هذا النظام؟</span>
+      <h1 class="text-[34px] md:text-[50px] font-extrabold leading-[1.3] text-navy-900">
+        نظام{' '}
+        <span class="relative inline-block px-1">
+          واحد
+          <svg class="absolute -bottom-2 start-0 w-full" height="10" viewBox="0 0 140 10" preserveAspectRatio="none"><path d="M2 7c20-5 40-6 68-5s70 4 68-1" fill="none" stroke="#E0932E" stroke-width="5" stroke-linecap="round"/></svg>
+        </span>{' '}
+        من الاستلام حتى التحصيل — بلا فجوات، وبلا اشتراكات خارجية إضافية.
+      </h1>
+      <p class="text-[16px] md:text-[17px] leading-[1.9] text-gray-600 max-w-[640px]">ست أسباب مباشرة تجعل مِرآب الخيار الأنسب لمركز صيانتك في قطر والخليج.</p>
+    </div>
+  </section>
+
+  <WhyHub hubLabel="نظام مِرآب" items={items} />
+
+  <CTABanner lang="ar" title="اكتشف الفرق بنفسك — جرّب مِرآب اليوم." ctaLabel="ابدأ الآن مجانًا" />
+</BaseLayout>

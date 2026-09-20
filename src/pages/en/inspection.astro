@@ -1,0 +1,41 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import PageHero from '../../components/PageHero.astro';
+import FeatureShowcase from '../../components/FeatureShowcase.astro';
+import FeatureDetailGrid from '../../components/FeatureDetailGrid.astro';
+import CTABanner from '../../components/CTABanner.astro';
+
+const showcase = {
+  panelTitle: 'Interactive Inspection Diagram',
+  tiles: [
+    { label: 'Clickable zones', value: '29' },
+    { label: 'Overall status', value: 'Needs follow-up', accent: true },
+    { label: 'Last inspection', value: 'Today 9:40 AM' },
+  ],
+  rows: [
+    { label: 'Front headlight', badge: 'Needs follow-up', badgeVariant: 'amber' as const },
+    { label: 'Rear brakes', badge: 'Needs immediate action', badgeVariant: 'urgent' as const },
+  ],
+  chips: [
+    { icon: 'check' as const, title: 'Inspection completed', subtitle: 'Toyota Camry — Plate 34521' },
+    { icon: 'alert' as const, title: 'Maintenance reminder sent', subtitle: 'To the customer by email' },
+    { icon: 'doc' as const, title: 'Added to job card', subtitle: 'PDF ready to print' },
+  ],
+};
+
+const items = [
+  { icon: 'target' as const, title: 'Interactive Inspection Diagram', desc: 'When any vehicle is received, the technician logs findings directly on an interactive visual diagram of the car (29 clickable zones: doors, lights, tires, mirrors, from every angle) — instead of relying on free-text notes that can be misread.' },
+  { icon: 'export' as const, title: 'Inspection in Printed Documents', desc: "The inspection diagram appears in full inside the printed or downloaded PDF job card, serving as a documented reference for the vehicle's condition on intake." },
+  { icon: 'alert' as const, title: 'Upcoming Maintenance Reminders', desc: 'Automatic alerts for vehicles due for upcoming maintenance, with a one-click email reminder sent directly to the customer.' },
+];
+---
+
+<BaseLayout lang="en" slug="inspection" title="Vehicle Inspection & Preventive Maintenance — Mirab" description="A documented, visual inspection diagram that appears in your documents, with automatic maintenance reminders.">
+  <PageHero eyebrow="Vehicle Inspection & Preventive Maintenance" title="Documented inspections, not ambiguous notes" description="An interactive vehicle diagram turns inspection from an error-prone text note into an accurate visual reference that appears in every document." />
+
+  <FeatureShowcase panelTitle={showcase.panelTitle} tiles={showcase.tiles} rows={showcase.rows} chips={showcase.chips} />
+
+  <FeatureDetailGrid items={items} label="Feature Details" />
+
+  <CTABanner lang="en" title="Document every vehicle's condition from the moment it arrives." ctaLabel="Try It Free" />
+</BaseLayout>

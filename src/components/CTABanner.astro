@@ -1,0 +1,21 @@
+---
+import { pathFor } from '../i18n/paths';
+import type { Lang } from '../i18n/nav';
+
+interface Props {
+  lang: Lang;
+  title: string;
+  ctaLabel: string;
+}
+const { lang, title, ctaLabel } = Astro.props;
+---
+
+<section class="px-6 md:px-20 py-16 md:py-20">
+  <div class="max-w-[1280px] mx-auto bg-navy-900 rounded-2xl px-8 md:px-16 py-14 flex flex-col items-center text-center gap-6 relative overflow-hidden">
+    <div class="absolute w-[380px] h-[380px] rounded-full bg-amber-300/10 -top-24 -end-24"></div>
+    <h2 class="relative text-[26px] md:text-[32px] font-bold text-white max-w-[560px] leading-[1.4]">{title}</h2>
+    <a href={pathFor(lang, 'contact')} class="relative bg-amber-500 text-[#20140A] font-bold text-[15px] px-8 py-4 rounded-lg hover:bg-amber-300 transition-colors">
+      {ctaLabel}
+    </a>
+  </div>
+</section>

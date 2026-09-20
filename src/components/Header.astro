@@ -1,0 +1,97 @@
+---
+import Logo from './Logo.astro';
+import { nav, featureItems } from '../i18n/nav';
+import type { Lang } from '../i18n/nav';
+import { pathFor, otherLang } from '../i18n/paths';
+
+interface Props {
+  lang: Lang;
+  currentSlug: string; // '' for home
+}
+
+const { lang, currentSlug } = Astro.props;
+const t = nav[lang];
+const features = featureItems[lang];
+const alt = otherLang(lang);
+const isRtl = lang === 'ar';
+const fontClass = isRtl ? 'font-ar' : 'font-en';
+
+const isFeaturePage = features.some((f) => f.slug === currentSlug);
+---
+
+<header id="site-header" class="sticky top-0 z-50 bg-white border-b border-gray-300">
+  <div class={`flex items-center justify-between h-[76px] px-6 md:px-20 ${fontClass}`}>
+    <Logo lang={lang} />
+
+    <nav class="hidden lg:flex items-center gap-9 text-[14.5px] font-medium text-ink">
+      <a href={pathFor(lang, '')} class:list={["hover:text-navy-500", currentSlug === '' && 'text-navy-900 font-semibold']}>{t.home}</a>
+      <a href={pathFor(lang, 'about')} class:list={["hover:text-navy-500", currentSlug === 'about' && 'text-navy-900 font-semibold']}>{t.about}</a>
+
+      <div class="relative group">
+        <button type="button" class:list={["flex items-center gap-1 hover:text-navy-500", isFeaturePage && 'text-navy-900 font-semibold']} aria-haspopup="true">
+          {t.features}
+          <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" class="mt-px"><path d="m6 9 6 6 6-6"/></svg>
+        </button>
+        <div class="invisible opacity-0 group-hover:visible group-hover:opacity-100 group-focus-within:visible group-focus-within:opacity-100 transition-opacity absolute top-full start-0 pt-3 w-[560px] z-50">
+          <div class="grid grid-cols-2 gap-1 bg-white border border-gray-300 rounded-xl shadow-xl p-3">
+            {features.map((f) => (
+              <a href={pathFor(lang, f.slug)} class="rounded-lg p-3 hover:bg-bg transition-colors">
+                <div class="text-[13.5px] font-semibold text-navy-900">{f.label}</div>
+                <div class="text-[12px] text-gray-600 mt-1 leading-relaxed">{f.blurb}</div>
+              </a>
+            ))}
+          </div>
+        </div>
+      </div>
+
+      <a href={pathFor(lang, 'pricing')} class:list={["hover:text-navy-500", currentSlug === 'pricing' && 'text-navy-900 font-semibold']}>{t.pricing}</a>
+      <a href={pathFor(lang, 'why')} class:list={["hover:text-navy-500", currentSlug === 'why' && 'text-navy-900 font-semibold']}>{t.why}</a>
+      <a href={pathFor(lang, 'faq')} class:list={["hover:text-navy-500", currentSlug === 'faq' && 'text-navy-900 font-semibold']}>{t.faq}</a>
+      <a href={pathFor(lang, 'contact')} class:list={["hover:text-navy-500", currentSlug === 'contact' && 'text-navy-900 font-semibold']}>{t.contact}</a>
+    </nav>
+
+    <div class="hidden lg:flex items-center gap-5">
+      <a href={pathFor(alt, currentSlug)} class="text-[13px] font-semibold text-gray-600 border border-gray-300 rounded-md px-2.5 py-1 hover:border-navy-500 hover:text-navy-500 transition-colors">
+        {alt === 'ar' ? 'ع' : 'EN'}
+      </a>
+      <a href={pathFor(lang, 'contact')} class="bg-navy-900 text-white text-[14px] font-semibold px-[22px] py-[11px] rounded-lg hover:bg-navy-700 transition-colors">
+        {t.tryFree}
+      </a>
+    </div>
+
+    <button id="mobile-menu-toggle" type="button" class="lg:hidden p-2 -me-2 text-navy-900" aria-label="Menu" aria-expanded="false" aria-controls="mobile-menu">
+      <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M4 6h16M4 12h16M4 18h16"/></svg>
+    </button>
+  </div>
+
+  <div id="mobile-menu" class={`hidden lg:hidden border-t border-gray-300 bg-white px-6 py-4 ${fontClass}`}>
+    <div class="flex flex-col gap-1 text-[15px]">
+      <a href={pathFor(lang, '')} class="py-2.5 border-b border-gray-300 text-ink">{t.home}</a>
+      <a href={pathFor(lang, 'about')} class="py-2.5 border-b border-gray-300 text-ink">{t.about}</a>
+      <div class="py-2.5 border-b border-gray-300">
+        <div class="text-gray-600 text-[12px] mb-2 uppercase tracking-wide">{t.features}</div>
+        <div class="flex flex-col gap-2 ps-2">
+          {features.map((f) => (
+            <a href={pathFor(lang, f.slug)} class="text-ink">{f.label}</a>
+          ))}
+        </div>
+      </div>
+      <a href={pathFor(lang, 'pricing')} class="py-2.5 border-b border-gray-300 text-ink">{t.pricing}</a>
+      <a href={pathFor(lang, 'why')} class="py-2.5 border-b border-gray-300 text-ink">{t.why}</a>
+      <a href={pathFor(lang, 'faq')} class="py-2.5 border-b border-gray-300 text-ink">{t.faq}</a>
+      <a href={pathFor(lang, 'contact')} class="py-2.5 border-b border-gray-300 text-ink">{t.contact}</a>
+      <a href={pathFor(alt, currentSlug)} class="py-2.5 text-navy-500 font-semibold">{alt === 'ar' ? 'العربية' : 'English'}</a>
+      <a href={pathFor(lang, 'contact')} class="mt-3 text-center bg-navy-900 text-white font-semibold px-5 py-3 rounded-lg">{t.tryFree}</a>
+    </div>
+  </div>
+</header>
+
+<script>
+  const toggle = document.getElementById('mobile-menu-toggle');
+  const menu = document.getElementById('mobile-menu');
+  toggle?.addEventListener('click', () => {
+    const isHidden = menu?.classList.contains('hidden');
+    menu?.classList.toggle('hidden');
+    toggle.setAttribute('aria-expanded', String(!!isHidden));
+  });
+</script>

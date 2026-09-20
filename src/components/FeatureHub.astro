@@ -1,0 +1,50 @@
+---
+import { featureItems } from '../i18n/nav';
+import { featureHub } from '../i18n/home';
+import { pathFor } from '../i18n/paths';
+import type { Lang } from '../i18n/nav';
+
+interface Props {
+  lang: Lang;
+}
+const { lang } = Astro.props;
+const t = featureHub[lang];
+const items = featureItems[lang];
+
+// One consistent icon per feature slug, feather-style (stroke, rounded caps),
+// matching the checkmark/chevron icons used elsewhere on the site.
+const icons: Record<string, string> = {
+  features: '<path d="M9 4h6a1 1 0 0 1 1 1v1H8V5a1 1 0 0 1 1-1Z"/><rect x="5" y="6" width="14" height="15" rx="2"/><path d="M9 12h6M9 16h4"/>',
+  billing: '<path d="M4 19V9M10 19V5M16 19v-7M4 19h16"/>',
+  inspection: '<circle cx="12" cy="12" r="8"/><path d="m12 8 1.5 3.2 3.5.4-2.6 2.4.7 3.5-3.1-1.8-3.1 1.8.7-3.5-2.6-2.4 3.5-.4L12 8Z"/>',
+  automation: '<path d="M22 3 2 10l7 3 3 7 10-17Z"/>',
+  security: '<path d="M12 3 5 6v5c0 4.5 3 7.8 7 9 4-1.2 7-4.5 7-9V6l-7-3Z"/><path d="m9.5 12 1.8 1.8L15 10"/>',
+  data: '<path d="M12 3v12M12 15l4-4M12 15l-4-4"/><path d="M5 19h14"/>',
+  integrations: '<circle cx="18" cy="5" r="3"/><circle cx="6" cy="12" r="3"/><circle cx="18" cy="19" r="3"/><line x1="8.59" y1="13.51" x2="15.42" y2="17.49"/><line x1="15.41" y1="6.51" x2="8.59" y2="10.49"/>',
+};
+---
+
+<section class="px-6 md:px-20 py-14 md:py-16 bg-white">
+  <div class="max-w-[720px] mx-auto text-center mb-12">
+    <h2 class="text-[24px] md:text-[28px] font-bold text-navy-900">{t.heading}</h2>
+    <p class="text-[15px] md:text-[16px] text-gray-600 mt-3 leading-[1.8]">{t.subheading}</p>
+  </div>
+
+  <div class="max-w-[1180px] mx-auto grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5">
+    {items.map((item) => (
+      <a href={pathFor(lang, item.slug)} class="group flex flex-col gap-4 bg-white border border-gray-300 rounded-xl p-6 hover:border-navy-500 hover:shadow-lg transition-all">
+        <div class="w-11 h-11 rounded-lg bg-navy-900 text-white flex items-center justify-center shrink-0">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" set:html={icons[item.slug]} />
+        </div>
+        <div class="flex flex-col gap-1.5">
+          <h3 class="text-[16.5px] font-bold text-navy-900">{item.label}</h3>
+          <p class="text-[13.5px] leading-[1.8] text-gray-600">{item.blurb}</p>
+        </div>
+        <span class="text-[13px] font-semibold text-navy-500 flex items-center gap-1.5 mt-auto group-hover:gap-2.5 transition-all">
+          {t.cta}
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" class:list={[lang === 'ar' && 'rotate-180']}><path d="m9 6 6 6-6 6"/></svg>
+        </span>
+      </a>
+    ))}
+  </div>
+</section>

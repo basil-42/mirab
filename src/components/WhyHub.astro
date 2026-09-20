@@ -1,0 +1,116 @@
+---
+// Radial "hub & spoke" diagram for the Why This System page: the Mirab mark
+// sits at the center with the six reasons arranged around it as connected
+// nodes, visualizing "everything gathers into one system." On narrow screens
+// a radial layout doesn't work, so a vertical spine variant (reusing the
+// same node/label language) stacks the same six reasons top-to-bottom.
+// Below the diagram, a detail grid restates each reason with its full
+// description (the diagram itself only carries short labels).
+interface Item {
+  icon: keyof typeof ICONS;
+  accent: 'navy' | 'amber';
+  label: string;
+  desc: string;
+}
+interface Props {
+  hubLabel: string;
+  items: Item[]; // exactly 6, matching the desktop hexagon layout below
+}
+const { hubLabel, items } = Astro.props;
+
+const ICONS = {
+  globe: '<circle cx="12" cy="12" r="9"/><path d="M3 12h18M12 3c2.5 2.5 4 5.5 4 9s-1.5 6.5-4 9c-2.5-2.5-4-5.5-4-9s1.5-6.5 4-9Z"/>',
+  link: '<path d="M9 17H7a5 5 0 0 1 0-10h2M15 7h2a5 5 0 1 1 0 10h-2M8 12h8"/>',
+  box: '<path d="M21 8 12 3 3 8v8l9 5 9-5V8Z"/><path d="M3 8l9 5 9-5M12 13v8"/>',
+  bolt: '<path d="M13 2 4 14h6l-1 8 9-12h-6l1-8Z"/>',
+  shieldCheck: '<path d="M12 3 4 6v6c0 5 3.5 8 8 9 4.5-1 8-4 8-9V6l-8-3Z"/><path d="m9 12 2 2 4-4"/>',
+  trendUp: '<path d="M3 17 9 11l4 4 8-8"/><path d="M15 7h6v6"/>',
+} as const;
+
+const accentHex: Record<'navy' | 'amber', string> = { navy: '#2A5490', amber: '#B8711A' };
+const accentBorder: Record<'navy' | 'amber', string> = { navy: 'border-navy-500', amber: 'border-amber-500' };
+const accentBg: Record<'navy' | 'amber', string> = { navy: 'bg-navy-500/10', amber: 'bg-amber-500/10' };
+
+// Desktop hexagon layout on a 608x560 canvas, center at (304,280), radius 208
+// (80% scale of the original 760x700/r260 layout, same angles).
+const POS = [
+  { x: 304, y: 72,  cx: 324, cy: 176 },
+  { x: 484, y: 176, cx: 404, cy: 245.32 },
+  { x: 484, y: 384, cx: 384, cy: 349.32 },
+  { x: 304, y: 488, cx: 284, cy: 384 },
+  { x: 124, y: 384, cx: 204, cy: 314.68 },
+  { x: 124, y: 176, cx: 224, cy: 210.68 },
+];
+
+function iconSvg(icon: keyof typeof ICONS, color: string, size = 18) {
+  return `<svg width="${size}" height="${size}" viewBox="0 0 24 24" fill="none" stroke="${color}" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">${ICONS[icon]}</svg>`;
+}
+---
+
+<section class="px-6 md:px-16 py-6 md:py-10">
+  <!-- Desktop: radial hub & spoke diagram -->
+  <div class="hidden md:block relative mx-auto" style="width:608px; max-width:100%; height:560px;">
+    <div class="absolute inset-0 m-auto w-[420px] h-[420px]" style="background: radial-gradient(circle, rgba(42,84,144,.10) 0%, rgba(42,84,144,0) 70%);"></div>
+
+    <svg class="absolute inset-0" width="608" height="560" viewBox="0 0 608 560">
+      <defs>
+        {items.map((item, i) => (
+          <linearGradient id={`why-hub-g${i}`} x1="304" y1="280" x2={POS[i].x} y2={POS[i].y} gradientUnits="userSpaceOnUse">
+            <stop offset="0" stop-color="#2A5490" stop-opacity=".55"/>
+            <stop offset="1" stop-color={accentHex[item.accent]} stop-opacity={item.accent === 'navy' ? '.12' : '.18'}/>
+          </linearGradient>
+        ))}
+      </defs>
+      <circle cx="304" cy="280" r="208" fill="none" stroke="#2A5490" stroke-opacity=".12" stroke-width="1.5" stroke-dasharray="2 8" stroke-linecap="round"/>
+      {items.map((item, i) => (
+        <path d={`M304,280 Q${POS[i].cx},${POS[i].cy} ${POS[i].x},${POS[i].y}`} fill="none" stroke={`url(#why-hub-g${i})`} stroke-width="1.5" stroke-linecap="round"/>
+      ))}
+    </svg>
+
+    <div class="absolute flex flex-col items-center gap-2.5" style="left:304px; top:280px; transform:translate(-50%,-50%);">
+      <div class="w-[94px] h-[94px] rounded-full flex items-center justify-center shadow-[0_10px_26px_-12px_rgba(11,31,58,.28)]" style="background:linear-gradient(155deg,#16345C,#0B1F3A);">
+        <svg width="30" height="30" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 20 9 9l4 6 3-4 5 9"/></svg>
+      </div>
+      <span class="text-[12.5px] font-extrabold text-white bg-navy-900 rounded-full px-3.5 py-1.5 shadow-sm whitespace-nowrap">{hubLabel}</span>
+    </div>
+
+    {items.map((item, i) => (
+      <div class="absolute flex flex-col items-center gap-2.5" style={`left:${POS[i].x}px; top:${POS[i].y}px; transform:translate(-50%,-50%);`}>
+        <div class:list={["w-[44px] h-[44px] rounded-full bg-white border-2 flex items-center justify-center shadow-[0_10px_26px_-12px_rgba(11,31,58,.28)]", accentBorder[item.accent]]} set:html={iconSvg(item.icon, accentHex[item.accent])} />
+        <span class="text-[11.5px] font-bold text-navy-900 bg-white border border-gray-300 rounded-full px-3 py-1 shadow-sm whitespace-nowrap">{item.label}</span>
+      </div>
+    ))}
+  </div>
+
+  <!-- Mobile: vertical spine variant of the same hub + nodes -->
+  <div class="md:hidden flex flex-col items-center">
+    <div class="flex flex-col items-center gap-2.5">
+      <div class="w-[72px] h-[72px] rounded-full flex items-center justify-center shadow-[0_10px_26px_-12px_rgba(11,31,58,.28)]" style="background:linear-gradient(155deg,#16345C,#0B1F3A);">
+        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 20 9 9l4 6 3-4 5 9"/></svg>
+      </div>
+      <span class="text-[12.5px] font-extrabold text-white bg-navy-900 rounded-full px-3.5 py-1.5 shadow-sm whitespace-nowrap">{hubLabel}</span>
+    </div>
+    <div class="relative flex flex-col items-center gap-5 mt-2">
+      <div class="absolute top-0 bottom-0 w-[2px]" style="inset-inline-start:calc(50% - 1px); background:linear-gradient(to bottom, rgba(42,84,144,.35), rgba(224,147,46,.35));"></div>
+      {items.map((item) => (
+        <div class="relative flex flex-col items-center gap-2 pt-5">
+          <div class:list={["w-[42px] h-[42px] rounded-full bg-white border-2 flex items-center justify-center shadow-[0_10px_26px_-12px_rgba(11,31,58,.28)]", accentBorder[item.accent]]} set:html={iconSvg(item.icon, accentHex[item.accent], 16)} />
+          <span class="text-[11.5px] font-bold text-navy-900 bg-white border border-gray-300 rounded-full px-3 py-1 shadow-sm whitespace-nowrap">{item.label}</span>
+        </div>
+      ))}
+    </div>
+  </div>
+
+  <!-- Detail grid: restates each reason with its full description -->
+  <div class="max-w-[980px] mx-auto mt-12 md:mt-16">
+    <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+      {items.map((item) => (
+        <div class="flex flex-col gap-3 bg-white border border-gray-300 rounded-2xl p-6 hover:-translate-y-0.5 hover:shadow-md hover:border-navy-500/30 transition-all">
+          <div class:list={["w-11 h-11 rounded-xl flex items-center justify-center", accentBg[item.accent]]} set:html={iconSvg(item.icon, accentHex[item.accent], 20)} />
+          <h3 class="text-[15.5px] font-extrabold text-navy-900">{item.label}</h3>
+          <p class="text-[13.5px] leading-[1.85] text-gray-600">{item.desc}</p>
+        </div>
+      ))}
+    </div>
+  </div>
+</section>

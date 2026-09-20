@@ -1,0 +1,43 @@
+---
+import { comparison } from '../i18n/home';
+import { pathFor } from '../i18n/paths';
+import type { Lang } from '../i18n/nav';
+
+interface Props {
+  lang: Lang;
+}
+const { lang } = Astro.props;
+const t = comparison[lang];
+---
+
+<section class="px-6 md:px-20 py-14 md:py-16">
+  <div class="max-w-[720px] mx-auto text-center mb-12">
+    <h2 class="text-[24px] md:text-[28px] font-bold text-navy-900">{t.heading}</h2>
+    <p class="text-[15px] md:text-[16px] text-gray-600 mt-3 leading-[1.8]">{t.subheading}</p>
+    <a href={pathFor(lang, 'comparison')} class="inline-flex items-center gap-1.5 text-[13.5px] font-bold text-navy-500 hover:text-navy-700 mt-3.5">
+      {t.moreDetailsLabel}
+      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" class:list={[lang === 'ar' && 'rotate-180']}><path d="m9 6 6 6-6 6"/></svg>
+    </a>
+  </div>
+
+  <div class="max-w-[1000px] mx-auto grid grid-cols-1 md:grid-cols-2 gap-5">
+    {t.points.map((point) => (
+      <div class="flex flex-col gap-3.5 bg-white border border-gray-300 rounded-xl p-5 hover:-translate-y-0.5 hover:shadow-lg transition-all">
+        <div class="flex items-start gap-3">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#9AA1AC" stroke-width="2.4" stroke-linecap="round" class="shrink-0 mt-1"><path d="M6 6 18 18M18 6 6 18" /></svg>
+          <div class="flex flex-col gap-0.5">
+            <span class="text-[11px] font-semibold text-gray-500 uppercase tracking-wide">{t.beforeLabel}</span>
+            <span class="text-[14px] leading-[1.7] text-gray-500 line-through decoration-gray-300">{point.before}</span>
+          </div>
+        </div>
+        <div class="flex items-start gap-3">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#2A5490" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round" class="shrink-0 mt-1"><path d="M20 6 9 17l-5-5" /></svg>
+          <div class="flex flex-col gap-0.5">
+            <span class="text-[11px] font-semibold text-[#8A4A0F] uppercase tracking-wide">{t.afterLabel}</span>
+            <span class="text-[14.5px] leading-[1.7] font-medium text-navy-900">{point.after}</span>
+          </div>
+        </div>
+      </div>
+    ))}
+  </div>
+</section>

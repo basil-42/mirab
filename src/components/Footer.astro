@@ -1,0 +1,57 @@
+---
+import Logo from './Logo.astro';
+import { nav, featureItems, footerText, legalNav, tagline } from '../i18n/nav';
+import type { Lang } from '../i18n/nav';
+import { pathFor } from '../i18n/paths';
+
+interface Props {
+  lang: Lang;
+}
+
+const { lang } = Astro.props;
+const t = nav[lang];
+const features = featureItems[lang];
+const ft = footerText[lang];
+const legal = legalNav[lang];
+const fontClass = lang === 'ar' ? 'font-ar' : 'font-en';
+const year = new Date().getFullYear();
+---
+
+<footer class={`bg-navy-900 text-white ${fontClass}`}>
+  <div class="max-w-[1280px] mx-auto px-6 md:px-20 py-16 grid grid-cols-1 md:grid-cols-4 gap-12">
+    <div class="md:col-span-2 flex flex-col gap-4">
+      <Logo lang={lang} reversed />
+      <p class="text-[14px] leading-relaxed text-white/60 max-w-sm">{ft.company}</p>
+    </div>
+
+    <div class="flex flex-col gap-3">
+      <div class="text-[13px] font-semibold text-white/50 uppercase tracking-wide mb-1">{ft.sitemap}</div>
+      <a href={pathFor(lang, '')} class="text-[14px] text-white/80 hover:text-amber-300">{t.home}</a>
+      <a href={pathFor(lang, 'about')} class="text-[14px] text-white/80 hover:text-amber-300">{t.about}</a>
+      <a href={pathFor(lang, 'pricing')} class="text-[14px] text-white/80 hover:text-amber-300">{t.pricing}</a>
+      <a href={pathFor(lang, 'comparison')} class="text-[14px] text-white/80 hover:text-amber-300">{t.comparison}</a>
+      <a href={pathFor(lang, 'migration')} class="text-[14px] text-white/80 hover:text-amber-300">{t.migrationGuide}</a>
+      <a href={pathFor(lang, 'why')} class="text-[14px] text-white/80 hover:text-amber-300">{t.why}</a>
+      <a href={pathFor(lang, 'faq')} class="text-[14px] text-white/80 hover:text-amber-300">{t.faq}</a>
+      <a href={pathFor(lang, 'contact')} class="text-[14px] text-white/80 hover:text-amber-300">{t.contact}</a>
+    </div>
+
+    <div class="flex flex-col gap-3">
+      <div class="text-[13px] font-semibold text-white/50 uppercase tracking-wide mb-1">{t.features}</div>
+      {features.map((f) => (
+        <a href={pathFor(lang, f.slug)} class="text-[14px] text-white/80 hover:text-amber-300">{f.label}</a>
+      ))}
+    </div>
+  </div>
+
+  <div class="border-t border-white/10">
+    <div class="max-w-[1280px] mx-auto px-6 md:px-20 py-6 flex flex-col sm:flex-row items-center justify-between gap-3 text-[13px] text-white/50">
+      <span>&copy; {year} {lang === 'ar' ? 'مِرآب' : 'Mirab'} — {ft.rights}</span>
+      <div class="flex items-center gap-5">
+        <a href={pathFor(lang, 'privacy')} class="hover:text-amber-300">{legal.privacy}</a>
+        <a href={pathFor(lang, 'terms')} class="hover:text-amber-300">{legal.terms}</a>
+        <span>{tagline[lang]}</span>
+      </div>
+    </div>
+  </div>
+</footer>

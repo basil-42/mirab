@@ -1,0 +1,34 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import WhyHub from '../../components/WhyHub.astro';
+import CTABanner from '../../components/CTABanner.astro';
+
+const items = [
+  { icon: 'globe' as const, accent: 'navy' as const, label: 'Built for the Gulf Market', desc: 'The entire interface — from screens to invoices and reports — supports Arabic and English together, with correct right-to-left (RTL) layout on every page. An Arabic-speaking team and an English-speaking one at the same garage can work on the same data without a separate translated copy.' },
+  { icon: 'link' as const, accent: 'amber' as const, label: 'One Connected Workflow', desc: 'Vehicle intake, inspection, the repair order, the invoice, and collection — every stage is logged in the same record, with no manual re-entry between separate tools and no details lost between staff.' },
+  { icon: 'box' as const, accent: 'navy' as const, label: 'Fully Independent', desc: 'PDF and Excel generation happens inside the system itself, not through an external service that could go down or raise its prices. That means no extra monthly invoice or reliance on a third party just to issue a simple document.' },
+  { icon: 'bolt' as const, accent: 'amber' as const, label: 'Fast, Uninterrupted Performance', desc: 'Because it is built as a Single Page Application, moving between screens does not reload the full page each time — a real difference when several cars come in during peak hours.' },
+  { icon: 'shieldCheck' as const, accent: 'navy' as const, label: 'Enterprise-Grade Security', desc: 'Each user sees only what their role covers, and every change to vehicle or invoice data is logged in an audit trail showing who made it and when, with automatic cloud backups requiring no manual step.' },
+  { icon: 'trendUp' as const, accent: 'amber' as const, label: 'Grows With You', desc: 'Adding a new technician or user takes minutes, whether the garage has a small team or several branches — with no need to migrate data to a different system as you grow.' },
+];
+---
+
+<BaseLayout lang="en" slug="why" title="Why Mirab?" description="Built specifically for the Gulf market, integrated from intake to collection, and scalable as your garage grows.">
+  <section class="px-6 md:px-20 pt-16 pb-8 md:pt-20 md:pb-10">
+    <div class="max-w-[900px] mx-auto text-center flex flex-col items-center gap-5">
+      <span class="inline-flex items-center gap-2 bg-navy-900/5 text-navy-700 text-[13px] font-semibold px-3.5 py-1.5 rounded-full">Why This System</span>
+      <h1 class="text-[34px] md:text-[50px] font-extrabold leading-[1.3] text-navy-900">
+        <span class="relative inline-block px-1">
+          One
+          <svg class="absolute -bottom-2 start-0 w-full" height="10" viewBox="0 0 140 10" preserveAspectRatio="none"><path d="M2 7c20-5 40-6 68-5s70 4 68-1" fill="none" stroke="#E0932E" stroke-width="5" stroke-linecap="round"/></svg>
+        </span>{' '}
+        connected system — from intake to collection, with no gaps and no extra subscriptions.
+      </h1>
+      <p class="text-[16px] md:text-[17px] leading-[1.9] text-gray-600 max-w-[640px]">Six direct reasons Mirab is the right fit for your service center in Qatar and the Gulf.</p>
+    </div>
+  </section>
+
+  <WhyHub hubLabel="Mirab System" items={items} />
+
+  <CTABanner lang="en" title="See the difference for yourself — try Mirab today." ctaLabel="Try It Free" />
+</BaseLayout>

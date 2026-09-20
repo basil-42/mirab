@@ -1,0 +1,92 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import PageHero from '../components/PageHero.astro';
+import FeatureJourney from '../components/FeatureJourney.astro';
+import CTABanner from '../components/CTABanner.astro';
+
+const steps = [
+  {
+    icon: 'users' as const, accent: 'navy' as const, stepLabel: 'الخطوة ٠١',
+    title: 'إدارة العملاء',
+    desc: 'سجل موحّد لكل عميل يشمل بياناته، سياراته، سجل معاملاته، وكشف حساب كامل قابل للمشاركة برابط مباشر. كشف تكرار تلقائي عند إضافة عميل جديد (بالاسم أو الهاتف) لمنع ازدواجية البيانات، وبحث سريع فوري أثناء الكتابة في كل نوافذ الإنشاء.',
+    snippet: {
+      leading: { type: 'avatar' as const, text: 'أ.ك' },
+      title: 'أحمد الكواري',
+      subtitle: '5551 2345 — سيارة واحدة مسجّلة',
+      trailing: { type: 'badge' as const, text: 'لا يوجد تكرار', variant: 'sent' as const },
+    },
+  },
+  {
+    icon: 'car' as const, accent: 'navy' as const, stepLabel: 'الخطوة ٠٢',
+    title: 'إدارة السيارات',
+    desc: 'ربط كل سيارة بعميلها مع سجل صيانة كامل، وتنبيهات صيانة قادمة قابلة للفلترة والبحث، مع إمكانية إرسال تذكير صيانة للعميل مباشرة عبر البريد.',
+    snippet: {
+      leading: { type: 'icon' as const },
+      title: 'تويوتا كامري — لوحة 34521',
+      subtitle: 'مرتبطة تلقائياً بملف أحمد الكواري',
+    },
+  },
+  {
+    icon: 'jobcard' as const, accent: 'navy' as const, stepLabel: 'الخطوة ٠٣',
+    title: 'بطاقات العمل (Job Cards)',
+    desc: 'بطاقة عمل رقمية كاملة لكل زيارة: تعيين فني، تتبع الحالة، وربط تلقائي بعرض السعر الأصلي إن وُجد. تتحول بضغطة واحدة إلى فاتورة عند اكتمال العمل.',
+    snippet: {
+      title: 'بطاقة عمل #877',
+      subtitle: 'الفني: سالم — تويوتا كامري 34521',
+      trailing: { type: 'badge' as const, text: 'قيد التنفيذ', variant: 'amber' as const },
+    },
+  },
+  {
+    icon: 'quotation' as const, accent: 'navy' as const, stepLabel: 'الخطوة ٠٤',
+    title: 'عروض الأسعار',
+    desc: 'إنشاء عروض أسعار احترافية بترقيم تلقائي متسلسل، إرسالها مباشرة للعميل، وتحويلها لاحقاً إلى بطاقة عمل أو فاتورة دون إعادة إدخال أي بيانات.',
+    snippet: {
+      title: 'عرض سعر #419',
+      subtitle: 'أحمد الكواري — تبديل زيت وفحص فرامل',
+      trailing: { type: 'badge' as const, text: 'مُرسل', variant: 'sent' as const },
+    },
+  },
+  {
+    icon: 'invoice' as const, accent: 'amber' as const, stepLabel: 'الخطوة ٠٥',
+    title: 'الفواتير',
+    desc: 'فواتير تُحسب حالتها تلقائياً (مسودة، مُرسلة، جزئية، مسدَّدة، متأخرة، ملغاة) بناءً على المدفوعات الفعلية، مع منع أي تعديل على المبالغ بعد تسجيل دفعة لضمان دقة السجلات المحاسبية.',
+    snippet: {
+      title: 'فاتورة #2032 — 275 ر.ق',
+      subtitle: 'محوّلة تلقائياً من عرض السعر #419',
+      trailing: { type: 'badge' as const, text: 'جزئية', variant: 'amber' as const },
+    },
+  },
+  {
+    icon: 'payment' as const, accent: 'amber' as const, stepLabel: 'الخطوة ٠٦',
+    title: 'المدفوعات ورصيد العميل',
+    desc: 'تسجيل دفعات كاملة أو جزئية بأي طريقة دفع، مع نظام رصيد إضافي (Credit) يسمح بقبول دفعات مقدمة أو تحويل مبالغ الفواتير الملغاة تلقائياً كرصيد للعميل يُستخدم في معاملاته القادمة.',
+    snippet: {
+      title: 'دفعة مستلمة — 200 ر.ق',
+      subtitle: 'نقدي — المتبقي 75 ر.ق',
+      trailing: { type: 'check' as const },
+    },
+  },
+  {
+    icon: 'receipt' as const, accent: 'amber' as const, stepLabel: 'الخطوة ٠٧',
+    title: 'إيصالات الدفع',
+    desc: 'إيصال رسمي مرقّم تلقائياً لكل دفعة، جاهز للتحميل أو الإرسال فوراً للعميل.',
+    snippet: {
+      title: 'إيصال #R-2032',
+      subtitle: 'جاهز للإرسال — واتساب / بريد',
+      trailing: { type: 'badge' as const, text: 'صادر', variant: 'sent' as const },
+    },
+  },
+];
+---
+
+<BaseLayout lang="ar" slug="features" title="المميزات الأساسية — مِرآب" description="إدارة العملاء والسيارات وبطاقات العمل وعروض الأسعار والفواتير والمدفوعات في نظام واحد.">
+  <PageHero eyebrow="المميزات الأساسية" title="كل عملية ورشتك، في نظام واحد مترابط" description="من أول اتصال بالعميل حتى تحصيل آخر دفعة — بلا إعادة إدخال بيانات وبلا فجوات بين الأدوات." />
+
+  <FeatureJourney
+    eyebrow="مثال حي عبر رحلة عميل واحدة"
+    subtitle="تابع كيف تنتقل بيانات عميل واحد وسيارته عبر كل خطوة — دون كتابتها مرتين"
+    steps={steps}
+  />
+
+  <CTABanner lang="ar" title="جاهز لتجربة هذه المميزات على ورشتك؟" ctaLabel="ابدأ الآن مجانًا" />
+</BaseLayout>

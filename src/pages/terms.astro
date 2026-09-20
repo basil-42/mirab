@@ -1,0 +1,15 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import PageHero from '../components/PageHero.astro';
+import LegalSections from '../components/LegalSections.astro';
+import CTABanner from '../components/CTABanner.astro';
+import { termsPage } from '../i18n/legal';
+
+const p = termsPage.ar;
+---
+
+<BaseLayout lang="ar" slug="terms" title="الشروط والأحكام — مِرآب" description="الشروط التي تحكم استخدامك لموقعنا ولنظام مِرآب لإدارة الكراجات.">
+  <PageHero eyebrow={p.eyebrow} title={p.title} description={p.description} />
+  <LegalSections sections={p.sections} lastUpdated={p.lastUpdated} />
+  <CTABanner lang="ar" title={p.ctaTitle} ctaLabel="تواصل معنا" />
+</BaseLayout>

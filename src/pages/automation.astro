@@ -1,0 +1,44 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import PageHero from '../components/PageHero.astro';
+import FeatureShowcase from '../components/FeatureShowcase.astro';
+import FeatureDetailGrid from '../components/FeatureDetailGrid.astro';
+import CTABanner from '../components/CTABanner.astro';
+
+const showcase = {
+  panelTitle: 'سجل الإرسال',
+  tiles: [
+    { label: 'عبر البريد', value: '82' },
+    { label: 'عبر واتساب', value: '46' },
+    { label: 'تذكيرات مُرسلة', value: '12', accent: true },
+  ],
+  rows: [
+    { label: 'فاتورة #2031 — ورشة الخليج', badge: 'أُرسلت عبر البريد', badgeVariant: 'sent' as const },
+    { label: 'عرض سعر #418 — شركة الوفاء', badge: 'أُرسل عبر واتساب', badgeVariant: 'sent' as const },
+  ],
+  chips: [
+    { icon: 'check' as const, title: 'تم الإرسال بنجاح', subtitle: 'فاتورة #2031 — واتساب' },
+    { icon: 'alert' as const, title: 'تذكير تلقائي للمتأخرين', subtitle: '5 عملاء' },
+    { icon: 'signature' as const, title: 'توقيع رقمي مُضاف', subtitle: 'ختم الشركة + التوقيع' },
+  ],
+};
+
+const items = [
+  { icon: 'mail' as const, title: 'إرسال عبر البريد الإلكتروني', desc: 'إرسال أي مستند (عرض سعر، فاتورة، بطاقة عمل، إيصال، كشف حساب) مباشرة للعميل عبر بريدك الخاص، بقوالب رسائل قابلة للتخصيص الكامل من الإعدادات.' },
+  { icon: 'chat' as const, title: 'إرسال عبر واتساب', desc: 'إرسال نفس المستندات عبر واتساب بنص رسالة جاهز وقابل للتخصيص، مع رابط مباشر للمستند دون الحاجة لتسجيل دخول العميل للنظام.' },
+  { icon: 'link' as const, title: 'روابط مستندات عامة قابلة للمشاركة', desc: 'رابط آمن ومحدود الصلاحية لكل مستند، يسمح للعميل بعرض وتحميل الفاتورة أو العرض دون أي حساب أو كلمة مرور.' },
+  { icon: 'alert' as const, title: 'تذكيرات الفواتير المتأخرة', desc: 'تذكير العملاء أصحاب الفواتير المتأخرة بضغطة واحدة — فردياً أو جماعياً — لتسريع التحصيل دون متابعة يدوية.' },
+  { icon: 'bulk' as const, title: 'إجراءات جماعية', desc: 'تحديد عدة فواتير أو عروض أسعار دفعة واحدة لتنفيذ إجراء عليها جميعاً: تحديد كمُرسلة، حذف، تصدير PDF، أو إرسال تذكير — لتوفير الوقت عند التعامل مع أعداد كبيرة من السجلات.' },
+  { icon: 'signature' as const, title: 'توقيع وختم رقمي على المستندات', desc: 'إضافة توقيع وختم الشركة تلقائياً على كل مستند مُصدَّر، مع التحكم الكامل بظهورها لكل نوع مستند من الإعدادات.' },
+];
+---
+
+<BaseLayout lang="ar" slug="automation" title="الأتمتة والتواصل مع العملاء — مِرآب" description="إرسال المستندات عبر البريد وواتساب، تذكيرات تلقائية، وإجراءات جماعية توفر وقتك.">
+  <PageHero eyebrow="الأتمتة والتواصل مع العملاء" title="أقل عمل يدوي، تواصل أسرع مع العملاء" description="من إرسال المستندات إلى تذكيرات التحصيل — أتمتة تُنجز المهام المتكررة بضغطة واحدة." />
+
+  <FeatureShowcase panelTitle={showcase.panelTitle} tiles={showcase.tiles} rows={showcase.rows} chips={showcase.chips} />
+
+  <FeatureDetailGrid items={items} label="تفاصيل الميزة" />
+
+  <CTABanner lang="ar" title="وفّر ساعات من العمل اليدوي كل أسبوع." ctaLabel="ابدأ الآن مجانًا" />
+</BaseLayout>

@@ -1,0 +1,42 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import PageHero from '../../components/PageHero.astro';
+import FeatureShowcase from '../../components/FeatureShowcase.astro';
+import FeatureDetailGrid from '../../components/FeatureDetailGrid.astro';
+import CTABanner from '../../components/CTABanner.astro';
+
+const showcase = {
+  panelTitle: 'Financial Dashboard',
+  tiles: [
+    { label: 'Monthly Revenue', value: 'QAR 48,200' },
+    { label: 'Overdue Invoices', value: '5', accent: true },
+    { label: 'Customer Balance', value: 'QAR 6,150' },
+  ],
+  rows: [
+    { label: 'Invoice #2031 — Gulf Garage', badge: '5 days overdue', badgeVariant: 'amber' as const },
+    { label: 'Invoice #2028 — Mohammed Al Ali', badge: '21 days overdue', badgeVariant: 'urgent' as const },
+  ],
+  chips: [
+    { icon: 'check' as const, title: 'Payment collected', subtitle: 'Invoice #2031 — QAR 640' },
+    { icon: 'alert' as const, title: 'Automatic reminder sent', subtitle: '5 overdue invoices' },
+    { icon: 'doc' as const, title: 'Excel export', subtitle: 'Q3-revenue.xlsx' },
+  ],
+};
+
+const items = [
+  { icon: 'dashboard' as const, title: 'Dynamic Dashboard', desc: 'A daily / weekly / monthly / yearly overview of revenue, overdue invoices, vehicles due for maintenance, and customer balances — updating live without a page reload.' },
+  { icon: 'report' as const, title: 'Financial Reports', desc: 'Ready-made reports for revenue, payments received, overdue invoices (aged by how overdue), and total receivables per customer — all paginated, searchable, and fully exportable.' },
+  { icon: 'export' as const, title: 'Excel & CSV Export', desc: 'Export any report or data list directly to Excel or CSV in one click, ready for accounting or external sharing.' },
+  { icon: 'audit' as const, title: 'Full Audit Log', desc: 'Every action in the system (create, edit, delete, send) is automatically logged with user and timestamp, filterable and exportable — full transparency over every financial or administrative move.' },
+];
+---
+
+<BaseLayout lang="en" slug="billing" title="Billing & Financial Reports — Mirab" description="A live dashboard and exportable financial reports, with a full audit log for every action.">
+  <PageHero eyebrow="Billing & Financial Reports" title="Your numbers, live, at all times" description="From a live dashboard to exportable reports and a transparent audit log — everything you need to track your garage's financial health." />
+
+  <FeatureShowcase panelTitle={showcase.panelTitle} tiles={showcase.tiles} rows={showcase.rows} chips={showcase.chips} />
+
+  <FeatureDetailGrid items={items} label="Feature Details" />
+
+  <CTABanner lang="en" title="Track your garage's revenue accurately from day one." ctaLabel="Try It Free" />
+</BaseLayout>

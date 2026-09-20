@@ -1,0 +1,109 @@
+---
+import Header from '../components/Header.astro';
+import Footer from '../components/Footer.astro';
+import { pathFor } from '../i18n/paths';
+import { getBreadcrumb } from '../i18n/breadcrumbs';
+import type { Lang } from '../i18n/nav';
+import '../styles/global.css';
+
+interface Props {
+  lang: Lang;
+  slug: string; // '' for home
+  title: string;
+  description: string;
+  structuredData?: Record<string, unknown>;
+  noindex?: boolean;
+}
+
+const { lang, slug, title, description, structuredData, noindex = false } = Astro.props;
+const isRtl = lang === 'ar';
+const fontClass = isRtl ? 'font-ar' : 'font-en';
+
+const site = Astro.site?.origin ?? 'https://example.com';
+const arUrl = new URL(pathFor('ar', slug), site).toString();
+const enUrl = new URL(pathFor('en', slug), site).toString();
+const canonical = new URL(pathFor(lang, slug), site).toString();
+
+// Sitewide Organization + WebSite structured data, rendered on every page
+// alongside any page-specific structuredData (e.g. FAQPage on /faq).
+// No sameAs / contactPoint / SearchAction here — those would require
+// social profiles, a published phone number, or a search feature that
+// don't exist on the site yet, and fabricating them would be worse than
+// omitting them.
+const orgSchema = {
+  '@context': 'https://schema.org',
+  '@graph': [
+    {
+      '@type': 'Organization',
+      name: lang === 'ar' ? 'مِرآب' : 'Mirab',
+      url: site,
+      logo: new URL('/icon-512.png', site).toString(),
+      address: {
+        '@type': 'PostalAddress',
+        addressLocality: 'Doha',
+        addressCountry: 'QA',
+      },
+    },
+    {
+      '@type': 'WebSite',
+      name: lang === 'ar' ? 'مِرآب' : 'Mirab',
+      url: site,
+      inLanguage: lang,
+    },
+  ],
+};
+
+// Breadcrumb trail mirroring the real header/footer navigation hierarchy —
+// null on the homepage (and any unrecognized slug, rather than a guess).
+const breadcrumbItems = getBreadcrumb(lang, slug, site);
+const breadcrumbSchema = breadcrumbItems && {
+  '@context': 'https://schema.org',
+  '@type': 'BreadcrumbList',
+  itemListElement: breadcrumbItems.map((item, i) => ({
+    '@type': 'ListItem',
+    position: i + 1,
+    name: item.name,
+    item: item.url,
+  })),
+};
+---
+
+<!doctype html>
+<html lang={lang} dir={isRtl ? 'rtl' : 'ltr'}>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>{title}</title>
+    <meta name="description" content={description} />
+    {noindex && <meta name="robots" content="noindex" />}
+    <link rel="canonical" href={canonical} />
+    <link rel="alternate" hreflang="ar" href={arUrl} />
+    <link rel="alternate" hreflang="en" href={enUrl} />
+    <link rel="alternate" hreflang="x-default" href={arUrl} />
+    <meta property="og:title" content={title} />
+    <meta property="og:description" content={description} />
+    <meta property="og:type" content="website" />
+    <meta name="twitter:card" content="summary_large_image" />
+    <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+    <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
+    <link rel="manifest" href="/manifest.json" />
+    <meta name="theme-color" content="#0B1F3A" />
+    <meta property="og:image" content={new URL('/og-image.png', site).toString()} />
+    <meta property="og:locale" content={isRtl ? 'ar_QA' : 'en_QA'} />
+    <meta name="twitter:image" content={new URL('/og-image.png', site).toString()} />
+    <script type="application/ld+json" set:html={JSON.stringify(orgSchema)} />
+    {breadcrumbSchema && (
+      <script type="application/ld+json" set:html={JSON.stringify(breadcrumbSchema)} />
+    )}
+    {structuredData && (
+      <script type="application/ld+json" set:html={JSON.stringify(structuredData)} />
+    )}
+  </head>
+  <body class={`bg-bg text-ink antialiased ${fontClass}`}>
+    <Header lang={lang} currentSlug={slug} />
+    <main>
+      <slot />
+    </main>
+    <Footer lang={lang} />
+  </body>
+</html>

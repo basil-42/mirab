@@ -1,0 +1,49 @@
+---
+import { segments } from '../i18n/home';
+import type { Lang } from '../i18n/nav';
+
+interface Props {
+  lang: Lang;
+}
+const { lang } = Astro.props;
+const t = segments[lang];
+
+// One persona icon per segment, feather-style to match the rest of the site.
+const icons = [
+  // small independent garage — a single storefront
+  '<path d="M4 10h16M5 10v9a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1v-9M9 20v-6h6v6"/><path d="M3 10l1.5-5h15L21 10"/>',
+  // multi-branch — a small connected org chart
+  '<circle cx="12" cy="5.5" r="2.3"/><circle cx="5.5" cy="18" r="2.3"/><circle cx="18.5" cy="18" r="2.3"/><path d="M12 7.8v3.5M12 11.3 6.6 16M12 11.3l5.4 4.7"/>',
+  // specialized center — precision / target
+  '<circle cx="12" cy="12" r="8.5"/><circle cx="12" cy="12" r="4.5"/><circle cx="12" cy="12" r="1" fill="currentColor" stroke="none"/>',
+];
+---
+
+<section class="px-6 md:px-20 py-14 md:py-16">
+  <div class="max-w-[720px] mx-auto text-center mb-12">
+    <h2 class="text-[24px] md:text-[28px] font-bold text-navy-900">{t.heading}</h2>
+    <p class="text-[15px] md:text-[16px] text-gray-600 mt-3 leading-[1.8]">{t.subheading}</p>
+  </div>
+
+  <div class="max-w-[1180px] mx-auto grid grid-cols-1 md:grid-cols-3 gap-5">
+    {t.items.map((item, i) => (
+      <div class="flex flex-col gap-4 bg-white border border-gray-300 rounded-xl p-6 hover:-translate-y-0.5 hover:shadow-md hover:border-navy-500/30 transition-all">
+        <div class="w-11 h-11 rounded-lg bg-navy-900 text-white flex items-center justify-center shrink-0">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" set:html={icons[i]} />
+        </div>
+        <div class="flex flex-col gap-1.5">
+          <h3 class="text-[16.5px] font-bold text-navy-900">{item.title}</h3>
+          <p class="text-[13.5px] leading-[1.8] text-gray-600">{item.description}</p>
+        </div>
+        <ul class="flex flex-col gap-2 mt-1">
+          {item.features.map((f) => (
+            <li class="flex items-start gap-2 text-[13px] leading-[1.7] text-ink">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#2A5490" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round" class="shrink-0 mt-0.5"><path d="M20 6 9 17l-5-5"/></svg>
+              {f}
+            </li>
+          ))}
+        </ul>
+      </div>
+    ))}
+  </div>
+</section>
