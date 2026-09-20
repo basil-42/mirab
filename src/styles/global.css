@@ -88,6 +88,17 @@ body {
     opacity: 1;
     transform: none;
   }
+
+  /* Applied instead of the animated reveal when a section is already on
+     screen at the moment a ClientRouter navigation lands (see BaseLayout's
+     initSectionReveal) — shows it in its final state with no motion at
+     all, so re-visiting a page doesn't replay an entrance animation on
+     top of the page transition. */
+  main > section.reveal-instant,
+  main > section.reveal-instant .hero-reveal-text,
+  main > section.reveal-instant .hero-reveal-card {
+    transition: none !important;
+  }
 }
 
 /* ---------------------------------------------------------------------

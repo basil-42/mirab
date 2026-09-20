@@ -114,9 +114,23 @@ const breadcrumbSchema = breadcrumbItems && {
       // animation for free). Re-runs after every ClientRouter navigation via
       // astro:page-load, since <main>'s content is swapped, not persisted.
       // Respects prefers-reduced-motion by skipping straight to visible.
+      //
+      // hasLoadedOnce distinguishes the very first paint (hard load) from a
+      // later ClientRouter navigation: on that first paint, whatever is
+      // above the fold (the hero) is allowed to animate in. On every
+      // subsequent in-app navigation, content that's already on screen the
+      // moment the new page appears is shown instantly with no transition —
+      // otherwise it fades/slides in right on top of the page transition,
+      // which is what produced the jolt when navigating between pages.
+      // Only genuinely below-the-fold content still animates in on scroll.
+      let hasLoadedOnce = false;
+
       function initSectionReveal() {
         const sections = document.querySelectorAll('main > section');
         if (!sections.length) return;
+
+        const isInitialLoad = !hasLoadedOnce;
+        hasLoadedOnce = true;
 
         const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
         if (reduceMotion) {
@@ -137,8 +151,17 @@ const breadcrumbSchema = breadcrumbItems && {
         );
 
         sections.forEach((el, i) => {
-          (el as HTMLElement).style.setProperty('--reveal-delay', `${Math.min(i, 4) * 70}ms`);
-          io.observe(el);
+          const section = el as HTMLElement;
+          const rect = section.getBoundingClientRect();
+          const alreadyOnScreen = rect.top < window.innerHeight && rect.bottom > 0;
+
+          if (alreadyOnScreen && !isInitialLoad) {
+            section.classList.add('is-revealed', 'reveal-instant');
+            return;
+          }
+
+          section.style.setProperty('--reveal-delay', `${Math.min(i, 4) * 70}ms`);
+          io.observe(section);
         });
       }
 
