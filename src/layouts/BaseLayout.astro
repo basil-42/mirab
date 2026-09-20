@@ -1,6 +1,7 @@
 ---
 import Header from '../components/Header.astro';
 import Footer from '../components/Footer.astro';
+import { ClientRouter } from 'astro:transitions';
 import { pathFor } from '../i18n/paths';
 import { getBreadcrumb } from '../i18n/breadcrumbs';
 import type { Lang } from '../i18n/nav';
@@ -98,12 +99,50 @@ const breadcrumbSchema = breadcrumbItems && {
     {structuredData && (
       <script type="application/ld+json" set:html={JSON.stringify(structuredData)} />
     )}
+    <ClientRouter fallback="swap" />
   </head>
   <body class={`bg-bg text-ink antialiased ${fontClass}`}>
-    <Header lang={lang} currentSlug={slug} />
+    <Header lang={lang} currentSlug={slug} transition:persist />
     <main>
       <slot />
     </main>
     <Footer lang={lang} />
+
+    <script>
+      // Reveal top-level sections as they scroll into view (or immediately if
+      // already visible on load, which is what gives the hero its entrance
+      // animation for free). Re-runs after every ClientRouter navigation via
+      // astro:page-load, since <main>'s content is swapped, not persisted.
+      // Respects prefers-reduced-motion by skipping straight to visible.
+      function initSectionReveal() {
+        const sections = document.querySelectorAll('main > section');
+        if (!sections.length) return;
+
+        const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+        if (reduceMotion) {
+          sections.forEach((el) => el.classList.add('is-revealed'));
+          return;
+        }
+
+        const io = new IntersectionObserver(
+          (entries) => {
+            for (const entry of entries) {
+              if (entry.isIntersecting) {
+                entry.target.classList.add('is-revealed');
+                io.unobserve(entry.target);
+              }
+            }
+          },
+          { threshold: 0.12, rootMargin: '0px 0px -8% 0px' }
+        );
+
+        sections.forEach((el, i) => {
+          (el as HTMLElement).style.setProperty('--reveal-delay', `${Math.min(i, 4) * 70}ms`);
+          io.observe(el);
+        });
+      }
+
+      document.addEventListener('astro:page-load', initSectionReveal);
+    </script>
   </body>
 </html>

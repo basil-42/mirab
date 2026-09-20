@@ -44,3 +44,58 @@ body {
   background-color: var(--color-amber-300);
   color: var(--color-navy-900);
 }
+
+/* ---------------------------------------------------------------------
+   Section reveal (scroll-in + hero entrance)
+   Driven by BaseLayout's IntersectionObserver, which adds .is-revealed
+   to each top-level <main> section once it enters the viewport (this
+   fires immediately for the hero, since it's already visible on load).
+   Wrapped in prefers-reduced-motion so motion-sensitive visitors just
+   see the final state with no animation at all.
+--------------------------------------------------------------------- */
+@media (prefers-reduced-motion: no-preference) {
+  main > section:not(.hero-section) {
+    opacity: 0;
+    transform: translateY(18px);
+    transition:
+      opacity 0.7s cubic-bezier(0.16, 1, 0.3, 1) var(--reveal-delay, 0ms),
+      transform 0.7s cubic-bezier(0.16, 1, 0.3, 1) var(--reveal-delay, 0ms);
+  }
+  main > section:not(.hero-section).is-revealed {
+    opacity: 1;
+    transform: translateY(0);
+  }
+
+  /* Hero gets a two-part staggered entrance instead of the generic fade:
+     the copy settles in first, the product-preview card follows just
+     behind it with a touch of scale for depth. */
+  .hero-reveal-text {
+    opacity: 0;
+    transform: translateY(16px);
+    transition:
+      opacity 0.7s cubic-bezier(0.16, 1, 0.3, 1),
+      transform 0.7s cubic-bezier(0.16, 1, 0.3, 1);
+  }
+  .hero-reveal-card {
+    opacity: 0;
+    transform: translateY(24px) scale(0.97);
+    transition:
+      opacity 0.8s cubic-bezier(0.16, 1, 0.3, 1) 0.15s,
+      transform 0.8s cubic-bezier(0.16, 1, 0.3, 1) 0.15s;
+  }
+  .hero-section.is-revealed .hero-reveal-text,
+  .hero-section.is-revealed .hero-reveal-card {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+/* ---------------------------------------------------------------------
+   Page transitions (astro:transitions / <ClientRouter />)
+   Astro's default crossfade already respects prefers-reduced-motion on
+   its own, so no extra guarding needed here.
+--------------------------------------------------------------------- */
+::view-transition-old(root),
+::view-transition-new(root) {
+  animation-duration: 0.22s;
+}
